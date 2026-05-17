@@ -28,3 +28,4 @@ storybook-static
 
 agh-ui-react-*.tgz
 
+*.docker-compose.yml

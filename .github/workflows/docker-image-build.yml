@@ -41,3 +41,7 @@ jobs:
             aghanim10/agh-ui:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Post webhook to update vps server
+        run: |
+          curl -X POST ${{ secrets.PORTAINER_WEBHOOK }}
