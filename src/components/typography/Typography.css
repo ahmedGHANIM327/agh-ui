@@ -1,0 +1,96 @@
+.typography {
+    font-family: var(--font-sans);
+    color: var(--foreground);
+    font-weight: var(--font-weight-normal);
+    margin: 0;
+}
+
+/* Headings */
+
+.typography--h1 {
+    font-size: var(--text-5xl);
+    line-height: var(--text-5xl--line-height);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.025em;
+}
+
+.typography--h2 {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.025em;
+}
+
+.typography--h3 {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
+    font-weight: var(--font-weight-semibold);
+}
+
+.typography--h4 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    font-weight: var(--font-weight-semibold);
+}
+
+.typography--h3,
+.typography--h4 {
+    letter-spacing: -0.015em;
+}
+
+.typography--h5 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: var(--font-weight-medium);
+}
+
+.typography--h6 {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Paragraph */
+
+.typography--p {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-weight: var(--font-weight-normal);
+}
+
+.typography--p-sm {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-normal);
+}
+
+.typography--p-xs {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    font-weight: var(--font-weight-normal);
+}
+
+/* Label */
+
+.typography--label {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Colors */
+.typography--color-default {
+    color: var(--foreground);
+}
+
+.typography--color-muted {
+    color: var(--muted-foreground);
+}
+
+.typography--color-primary {
+    color: var(--primary);
+}
+
+.typography--color-destructive {
+    color: var(--destructive);
+}

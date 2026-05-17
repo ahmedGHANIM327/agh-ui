@@ -1,0 +1,108 @@
+.select__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    width: 100%;
+}
+
+.select__label {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+    color: var(--foreground);
+}
+
+.select__label--error {
+    color: var(--destructive);
+}
+
+.select__wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid var(--border);
+    background-color: var(--muted);
+    border-radius: var(--radius-lg);
+
+    transition:
+            border-color 150ms ease,
+            box-shadow 150ms ease,
+            background-color 150ms ease;
+}
+
+.select__wrapper:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.select__wrapper--error {
+    border-color: var(--destructive);
+}
+
+.select__wrapper--error:focus-within {
+    border-color: var(--destructive);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+}
+
+.select__wrapper--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.select__field {
+    width: 100%;
+    min-height: 2.5rem;
+
+    padding: var(--spacing-2) var(--spacing-10) var(--spacing-2) var(--spacing-3);
+
+    border: none;
+    outline: none;
+    appearance: none;
+
+    background: transparent;
+    color: var(--foreground);
+
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+
+    cursor: pointer;
+}
+
+.select__field:disabled {
+    cursor: not-allowed;
+}
+
+.select__field option {
+    background: var(--background);
+    color: var(--foreground);
+}
+
+.select__icon {
+    position: absolute;
+    right: var(--spacing-3);
+    top: 50%;
+
+    transform: translateY(-50%);
+    transition: transform 150ms ease;
+
+    pointer-events: none;
+}
+
+.select__icon--open {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.select__description {
+    margin: 0;
+
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    color: var(--muted-foreground);
+}
+
+.select__description--error {
+    color: var(--destructive);
+}

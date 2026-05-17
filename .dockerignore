@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+storybook-static
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+
+# Environment
+.env
+.env.*
+
+# Tests
+coverage
+
+# Storybook cache
+.storybook-cache
+
+# Turbo / monorepo
+.turbo
+
+# Misc
+*.tsbuildinfo

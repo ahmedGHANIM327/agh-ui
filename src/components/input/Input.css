@@ -1,0 +1,113 @@
+.input__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    width: 100%;
+}
+
+.input__label {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+    color: var(--foreground);
+}
+
+.input__label--error {
+    color: var(--destructive);
+}
+
+.input__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid var(--border);
+    background-color: var(--muted);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2) var(--spacing-3);
+    gap: var(--spacing-1);
+    min-height: 2.5rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input__wrapper--focused {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.input__wrapper--error {
+    border-color: var(--destructive);
+}
+
+.input__wrapper--error.input__wrapper--focused {
+    border-color: var(--destructive);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+}
+
+.input__wrapper--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.input__field {
+    flex: 1;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--foreground);
+    background-color: transparent;
+    border: none;
+    outline: none;
+    min-width: 0;
+}
+
+.input__field::placeholder {
+    color: var(--muted-foreground);
+}
+
+.input__field--error {
+    color: var(--destructive);
+}
+
+.input__field--error::placeholder {
+    color: var(--destructive);
+    opacity: 0.7;
+}
+
+.input__description {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    color: var(--muted-foreground);
+}
+
+.input__description--error {
+    color: var(--destructive);
+}
+
+.input__password-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+
+    border: none;
+    background: transparent;
+    color: var(--muted-foreground);
+
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.input__password-toggle:hover:not(:disabled) {
+    color: var(--foreground);
+}
+
+.input__password-toggle:disabled {
+    cursor: not-allowed;
+}
+
+.input__password-toggle--error {
+    color: var(--destructive);
+}

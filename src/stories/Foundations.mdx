@@ -1,0 +1,117 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Foundations" />
+
+# Foundations
+
+Foundations are the base layer of the design system.
+
+They define visual consistency across all components.
+
+---
+
+## Colors
+
+The design system uses semantic color tokens.
+
+```css
+--background
+--foreground
+--primary
+--primary-foreground
+--muted
+--muted-foreground
+--destructive
+--destructive-foreground
+--border
+--input
+```
+
+### Example
+
+```css
+:root {
+  --background: #f4f6f9;
+  --foreground: #1e293b;
+
+  --primary: #3d7ab8;
+  --primary-foreground: #ffffff;
+}
+```
+
+---
+
+## Typography
+
+Typography is managed through font size, line height and weight tokens.
+
+```css
+--text-xs
+--text-sm
+--text-base
+--text-lg
+--text-xl
+--text-2xl
+--text-3xl
+--text-4xl
+--text-5xl
+```
+
+Font weights:
+
+```css
+--font-weight-normal
+--font-weight-medium
+--font-weight-semibold
+--font-weight-bold
+```
+
+---
+
+## Spacing
+
+Spacing tokens are based on a consistent scale.
+
+```css
+--spacing-1: 0.25rem;
+--spacing-2: 0.5rem;
+--spacing-4: 1rem;
+--spacing-6: 1.5rem;
+```
+
+---
+
+## Radius
+
+Radius tokens are used to keep border radius consistent.
+
+```css
+--radius-sm
+--radius-md
+--radius-lg
+--radius-xl
+--radius-full
+```
+
+---
+
+## Themes
+
+Themes are controlled with CSS classes.
+
+```html
+<div class="theme-green">
+  ...
+</div>
+
+<div class="theme-purple dark">
+  ...
+</div>
+```
+
+Available themes:
+
+- Default
+- Green
+- Purple
+- Dark mode

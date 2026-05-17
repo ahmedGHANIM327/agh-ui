@@ -1,0 +1,122 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Usage" />
+
+# Usage Guide
+
+This guide explains how to use Shifae UI components consistently.
+
+---
+
+## Component Import
+
+```tsx
+import {
+    Button,
+    Input,
+    Card,
+    Select,
+    Textarea
+} from 'agh-ui';
+```
+
+---
+
+## Basic Example
+
+```tsx
+import {
+    Button,
+    Input,
+    Card
+} from 'agh-ui';
+
+export const Example = () => {
+  return (
+    <Card>
+      <Input
+        label="Email"
+        placeholder="john@example.com"
+        description="Enter your email address."
+      />
+
+      <Button
+        variant="primary"
+        label="Submit"
+      />
+    </Card>
+  );
+};
+```
+
+---
+
+## Styling Convention
+
+Components use BEM-style CSS classes.
+
+```css
+.button
+.button--primary
+.button--sm
+.button__label
+```
+
+---
+
+## Component API Rules
+
+### Variants
+
+Variants describe visual intent.
+
+Examples:
+
+```tsx
+<Button variant="primary" />
+<Button variant="outline" />
+<Button variant="destructive" />
+```
+
+### Sizes
+
+Sizes describe component scale.
+
+```tsx
+<Button size="sm" />
+<Button size="default" />
+<Button size="lg" />
+```
+
+### States
+
+Components support common UI states.
+
+```tsx
+<Button disabled />
+<Button isLoading />
+<Input error="This field is required" />
+```
+
+---
+
+## Accessibility Guidelines
+
+Use labels for all form fields.
+
+```tsx
+<Input label="Email" />
+<Select label="Country" />
+<Textarea label="Description" />
+```
+
+Use error messages for invalid states.
+
+```tsx
+<Input
+  label="Email"
+  error="Email is required"
+/>
+```
+
+Avoid using placeholders as labels.
