@@ -9,7 +9,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm build-storybook
+RUN pnpm run build-storybook
 
 
 FROM nginx:alpine
