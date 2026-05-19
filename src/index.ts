@@ -16,4 +16,5 @@ export {
     ToastProvider,
     toast
 } from "./components/toast/Toast";
+export { default as Tooltip } from "./components/tooltip/Tooltip";
 
