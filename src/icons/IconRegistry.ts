@@ -48,3 +48,8 @@ export const IconRegistry = {
 } as const;
 
 export type IconName = keyof typeof IconRegistry;
+
+
+export const ICON_NAMES = Object.keys(
+    IconRegistry,
+) as IconName[];

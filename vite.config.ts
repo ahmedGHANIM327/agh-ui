@@ -13,9 +13,15 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      insertTypesEntry: true,
-      entryRoot: "src",
-    }),
+      tsconfigPath: './tsconfig.build.json',
+      include: ['src'],
+      exclude: [
+        'src/**/*.stories.ts',
+        'src/**/*.stories.tsx',
+        'src/**/*.test.ts',
+        'src/**/*.test.tsx'
+      ]
+    })
   ],
 
   build: {

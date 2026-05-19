@@ -12,3 +12,8 @@ export { default as RadioGroup } from "./components/radio/RadioGroup";
 export { default as Select } from "./components/select/Select";
 export { default as Typography } from "./components/typography/Typography";
 export { default as Icon } from "./components/icon/Icon";
+export {
+    ToastProvider,
+    toast
+} from "./components/toast/Toast";
+

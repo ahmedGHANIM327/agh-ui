@@ -60,15 +60,15 @@ export function Example() {
 
 ## Components
 
-| Category | Components |
-| --- | --- |
-| Typography | `Typography` |
-| Actions | `Button` |
-| Feedback | `Badge`, `Spinner` |
-| Layout | `Card` |
-| Form fields | `Input`, `Textarea`, `Select` |
+| Category | Components                                         |
+| --- |----------------------------------------------------|
+| Typography | `Typography`                                       |
+| Actions | `Button`                                           |
+| Feedback | `Badge`, `Toast`                                   |
+| Layout | `Card`                                             |
+| Form fields | `Input`, `Textarea`, `Select`                      |
 | Selection controls | `Checkbox`, `CheckboxGroup`, `Radio`, `RadioGroup` |
-| Icons | `Icon` |
+| Icons | `Icon`                                             |
 
 ---
 
@@ -209,7 +209,6 @@ If you spot an accessibility issue, please open an issue with a minimal repro an
 Planned components and features:
 
 - Modal / Dialog
-- Toast
 - Tooltip
 - Dropdown
 - Combobox

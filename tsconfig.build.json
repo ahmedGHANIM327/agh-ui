@@ -5,7 +5,9 @@
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "include": ["src"],
   "exclude": [
