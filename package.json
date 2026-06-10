@@ -12,9 +12,10 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./tailwind": "./tailwind.preset.cjs"
   },
-  "files": ["dist"],
+  "files": ["dist", "tailwind.preset.cjs"],
   "sideEffects": ["**/*.css"],
   "peerDependencies": {
     "react": "^19",

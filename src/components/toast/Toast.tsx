@@ -5,10 +5,11 @@ import {
     useState,
 } from "react";
 import { createPortal } from "react-dom";
-import "./Toast.css";
+import styles from "./Toast.module.css";
 import type { IconName } from "../../icons/IconRegistry";
 import Icon from "../icon/Icon";
 import Button from "../button/Button";
+const s = (cls: string): string => styles[cls] ?? '';
 
 type ToastPosition =
     | "top-left"
@@ -192,7 +193,7 @@ const ToastViewport = ({
                            position,
                        }: ToastViewportProps) => {
     return (
-        <div className={`toast-viewport toast-viewport--${position}`}>
+        <div className={[s('toast-viewport'), s(`toast-viewport--${position}`)].join(' ')}>
             {children}
         </div>
     );
@@ -221,18 +222,18 @@ const Toast = ({
     }[type] as IconName : undefined);
 
     return (
-        <div className={`toast__container ${containerClassName}`} role="status" aria-live="polite">
+        <div className={[s('toast__container'), containerClassName].filter(Boolean).join(' ')} role="status" aria-live="polite">
             {nameIcon && (
                 <Icon name={nameIcon} className={iconClassName} />
             )}
 
-            <div className="toast__content">
-                <p className={`toast__label ${labelClassName}`}>
+            <div className={s('toast__content')}>
+                <p className={[s('toast__label'), labelClassName].filter(Boolean).join(' ')}>
                     {label}
                 </p>
 
                 {description && (
-                    <p className={`toast__description ${descriptionClassName}`}>
+                    <p className={[s('toast__description'), descriptionClassName].filter(Boolean).join(' ')}>
                         {description}
                     </p>
                 )}
@@ -245,7 +246,7 @@ const Toast = ({
                     iconName="x"
                     aria-label="Close toast"
                     onClick={() => dismissToast(id)}
-                    className={`toast__close ${closeButtonClassName}`}
+                    className={[s('toast__close'), closeButtonClassName].filter(Boolean).join(' ')}
                 />
             )}
         </div>

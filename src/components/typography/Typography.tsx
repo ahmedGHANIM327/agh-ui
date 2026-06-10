@@ -4,7 +4,8 @@ import type {
     ReactNode,
 } from "react";
 
-import "./Typography.css";
+import styles from "./Typography.module.css";
+const s = (cls: string): string => styles[cls] ?? '';
 
 type TypographyVariant =
     | "h1"
@@ -53,9 +54,9 @@ const Typography = ({
     const Component = defaultElements[variant];
 
     const classes = [
-        "typography",
-        `typography--${variant}`,
-        `typography--color-${color}`,
+        s('typography'),
+        s(`typography--${variant}`),
+        s(`typography--color-${color}`),
         className,
     ]
         .filter(Boolean)

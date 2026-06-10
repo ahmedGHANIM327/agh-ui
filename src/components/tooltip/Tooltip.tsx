@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import "./Tooltip.css";
+import styles from "./Tooltip.module.css";
+const s = (cls: string): string => styles[cls] ?? '';
 
 export type TooltipPosition = "top" | "bottom" | "right" | "left";
 
@@ -15,13 +16,13 @@ const Tooltip = ({
                      position = "top",
                  }: TooltipProps) => {
     return (
-        <span className="tooltip">
-            <span className="tooltip__trigger">
+        <span className={s('tooltip')}>
+            <span className={s('tooltip__trigger')}>
                 {children}
             </span>
 
             <span
-                className={`tooltip__content tooltip__content--${position}`}
+                className={[s('tooltip__content'), s(`tooltip__content--${position}`)].join(' ')}
                 role="tooltip"
             >
                 {content}

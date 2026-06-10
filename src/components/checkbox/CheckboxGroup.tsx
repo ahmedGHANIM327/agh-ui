@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import Checkbox from "./Checkbox";
 import type { CheckboxProps } from "./Checkbox";
-import "./Checkbox.css";
+import styles from "./Checkbox.module.css";
+const s = (cls: string): string => styles[cls] ?? '';
 
 export interface CheckboxOption extends Omit<CheckboxProps, "checked" | "onChange"> {
     value: string;
@@ -52,26 +53,26 @@ const CheckboxGroup: FC<CheckboxGroupProps> = ({
     };
 
     return (
-        <fieldset className={`checkbox-group ${containerClassName}`.trim()}>
+        <fieldset className={[s('checkbox-group'), containerClassName].filter(Boolean).join(' ')}>
             {label && (
-                <legend className={`checkbox-group__label${error ? " checkbox-group__label--error" : ""} ${labelClassName}`.trim()}>
+                <legend className={[s('checkbox-group__label'), error ? s('checkbox-group__label--error') : '', labelClassName].filter(Boolean).join(' ')}>
                     {label}
                 </legend>
             )}
 
             {description && !error && (
-                <p className={`checkbox-group__description ${descriptionClassName}`.trim()}>
+                <p className={[s('checkbox-group__description'), descriptionClassName].filter(Boolean).join(' ')}>
                     {description}
                 </p>
             )}
 
             {error && (
-                <p className={`checkbox-group__description checkbox-group__description--error ${errorClassName}`.trim()}>
+                <p className={[s('checkbox-group__description'), s('checkbox-group__description--error'), errorClassName].filter(Boolean).join(' ')}>
                     {error}
                 </p>
             )}
 
-            <div className={`checkbox-group__items ${className}`.trim()}>
+            <div className={[s('checkbox-group__items'), className].filter(Boolean).join(' ')}>
                 {options.map((option) => (
                     <Checkbox
                         key={option.value}
