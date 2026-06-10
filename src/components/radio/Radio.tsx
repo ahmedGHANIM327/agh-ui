@@ -1,5 +1,6 @@
 import type { FC, InputHTMLAttributes } from "react";
-import "./Radio.css";
+import styles from "./Radio.module.css";
+const s = (cls: string): string => styles[cls] ?? '';
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
     label?: string;
@@ -29,13 +30,13 @@ const Radio: FC<RadioProps> = ({
     const radioId = id ?? `${props.name}-${props.value}`;
 
     return (
-        <div className={`radio__container ${containerClassName}`.trim()}>
+        <div className={[s('radio__container'), containerClassName].filter(Boolean).join(' ')}>
             <label
                 className={[
-                    "radio__wrapper",
-                    disabled ? "radio__wrapper--disabled" : "",
-                    error ? "radio__wrapper--error" : "",
-                ].filter(Boolean).join(" ")}
+                    s('radio__wrapper'),
+                    disabled ? s('radio__wrapper--disabled') : '',
+                    error ? s('radio__wrapper--error') : '',
+                ].filter(Boolean).join(' ')}
                 htmlFor={radioId}
             >
                 <input
@@ -44,27 +45,27 @@ const Radio: FC<RadioProps> = ({
                     type="radio"
                     checked={checked}
                     disabled={disabled}
-                    className={`radio__input ${className}`.trim()}
+                    className={[s('radio__input'), className].filter(Boolean).join(' ')}
                 />
 
-                <span className={["radio__circle", checked ? "radio__circle--checked" : ""].filter(Boolean).join(" ")} />
+                <span className={[s('radio__circle'), checked ? s('radio__circle--checked') : ''].filter(Boolean).join(' ')} />
 
                 {(label || description || error) && (
-                    <span className="radio__content">
+                    <span className={s('radio__content')}>
                         {label && (
-                            <span className={`radio__label ${labelClassName}`.trim()}>
+                            <span className={[s('radio__label'), labelClassName].filter(Boolean).join(' ')}>
                                 {label}
                             </span>
                         )}
 
                         {description && !error && (
-                            <span className={`radio__description ${descriptionClassName}`.trim()}>
+                            <span className={[s('radio__description'), descriptionClassName].filter(Boolean).join(' ')}>
                                 {description}
                             </span>
                         )}
 
                         {error && (
-                            <span className={`radio__description radio__description--error ${errorClassName}`.trim()}>
+                            <span className={[s('radio__description'), s('radio__description--error'), errorClassName].filter(Boolean).join(' ')}>
                                 {error}
                             </span>
                         )}

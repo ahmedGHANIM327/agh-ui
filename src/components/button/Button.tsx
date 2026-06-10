@@ -1,7 +1,9 @@
 import type { FC, ButtonHTMLAttributes } from "react";
 import Icon from "../icon/Icon.tsx";
 import type { IconName } from "../../icons/IconRegistry.ts";
-import "./Button.css";
+import styles from "./Button.module.css";
+
+const s = (cls: string): string => styles[cls] ?? '';
 
 type ButtonVariant = "default" | "primary" | "outline" | "destructive" | "link" | "ghost";
 type ButtonSize = "default" | "lg" | "sm" | "icon";
@@ -44,10 +46,10 @@ const Button: FC<ButtonProps> = ({
     ) : null;
 
     const classes = [
-        "button",
-        `button--${variant}`,
-        `button--${size}`,
-        isLoading ? "button--loading" : "",
+        s('button'),
+        s(`button--${variant}`),
+        s(`button--${size}`),
+        isLoading ? s('button--loading') : '',
         className,
     ]
         .filter(Boolean)
@@ -70,7 +72,7 @@ const Button: FC<ButtonProps> = ({
                     {!isLoading && iconPosition === "left" && iconEl}
 
                     {label && (
-                        <span className="button__label">
+                        <span className={s('button__label')}>
                             {label}
                         </span>
                     )}

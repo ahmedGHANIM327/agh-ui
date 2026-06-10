@@ -1,7 +1,9 @@
 import type { FC } from "react";
 import Icon from "../icon/Icon.tsx";
 import type { IconName } from "../../icons/IconRegistry.ts";
-import "./Badge.css";
+import styles from "./Badge.module.css";
+
+const s = (cls: string): string => styles[cls] ?? '';
 
 type BadgeVariant = "default" | "primary" | "outline" | "destructive";
 type BadgeSize = "default" | "sm" | "lg";
@@ -40,9 +42,9 @@ const Badge: FC<BadgeProps> = ({
     ) : null;
 
     const classes = [
-        "badge",
-        `badge--${variant}`,
-        `badge--${size}`,
+        s('badge'),
+        s(`badge--${variant}`),
+        s(`badge--${size}`),
         className,
     ]
         .filter(Boolean)
@@ -53,7 +55,7 @@ const Badge: FC<BadgeProps> = ({
             {iconPosition === "left" && iconEl}
 
             {label && (
-                <span className="badge__label">
+                <span className={s('badge__label')}>
                     {label}
                 </span>
             )}

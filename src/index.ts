@@ -18,3 +18,11 @@ export {
 } from "./components/toast/Toast";
 export { default as Tooltip } from "./components/tooltip/Tooltip";
 
+// Theme
+export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";
+export type { ThemeProviderProps } from "./components/theme/ThemeProvider";
+
+// Tokens CSS (pour usage avec style={{ }} ou dans un preset Tailwind)
+export { tokens, themeClasses } from "./tokens";
+export type { ThemeName } from "./tokens";
+

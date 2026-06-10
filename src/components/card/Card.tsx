@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from "react";
-import "./Card.css";
+import styles from "./Card.module.css";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
@@ -11,7 +11,7 @@ const Card = ({
                   ...props
               }: CardProps) => {
     const classes = [
-        "card",
+        styles.card,
         className,
     ]
         .filter(Boolean)

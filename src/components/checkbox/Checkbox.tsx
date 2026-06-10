@@ -1,5 +1,6 @@
 import type { FC, InputHTMLAttributes } from "react";
-import "./Checkbox.css";
+import styles from "./Checkbox.module.css";
+const s = (cls: string): string => styles[cls] ?? '';
 
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
     label?: string;
@@ -28,40 +29,40 @@ const Checkbox: FC<CheckboxProps> = ({
     const checkboxId = id ?? props.name;
 
     return (
-        <div className={`checkbox__container ${containerClassName}`.trim()}>
+        <div className={[s('checkbox__container'), containerClassName].filter(Boolean).join(' ')}>
             <label
                 className={[
-                    "checkbox__wrapper",
-                    disabled ? "checkbox__wrapper--disabled" : "",
-                    error ? "checkbox__wrapper--error" : "",
-                ].filter(Boolean).join(" ")}
+                    s('checkbox__wrapper'),
+                    disabled ? s('checkbox__wrapper--disabled') : '',
+                    error ? s('checkbox__wrapper--error') : '',
+                ].filter(Boolean).join(' ')}
             >
                 <input
                     {...props}
                     id={checkboxId}
                     type="checkbox"
                     disabled={disabled}
-                    className={`checkbox__input ${className}`.trim()}
+                    className={[s('checkbox__input'), className].filter(Boolean).join(' ')}
                 />
 
-                <span className="checkbox__box" />
+                <span className={s('checkbox__box')} />
 
                 {(label || description) && (
-                    <span className="checkbox__content">
+                    <span className={s('checkbox__content')}>
                         {label && (
-                            <span className={`checkbox__label ${error ? 'checkbox__label--error' : ''} ${labelClassName}`.trim()}>
+                            <span className={[s('checkbox__label'), error ? s('checkbox__label--error') : '', labelClassName].filter(Boolean).join(' ')}>
                                 {label}
                             </span>
                         )}
 
                         {description && !error && (
-                            <span className={`checkbox__description ${descriptionClassName}`.trim()}>
+                            <span className={[s('checkbox__description'), descriptionClassName].filter(Boolean).join(' ')}>
                                 {description}
                             </span>
                         )}
 
                         {error && (
-                            <span className={`checkbox__description checkbox__description--error ${errorClassName}`.trim()}>
+                            <span className={[s('checkbox__description'), s('checkbox__description--error'), errorClassName].filter(Boolean).join(' ')}>
                                 {error}
                             </span>
                         )}

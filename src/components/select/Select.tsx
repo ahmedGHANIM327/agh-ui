@@ -1,6 +1,7 @@
 import {type FC, type SelectHTMLAttributes, useState} from "react";
-import "./Select.css";
+import styles from "./Select.module.css";
 import Icon from "../icon/Icon.tsx";
+const s = (cls: string): string => styles[cls] ?? '';
 
 export interface SelectOption {
     label: string;
@@ -43,11 +44,11 @@ const Select: FC<SelectProps> = ({
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className={`select__container ${containerClassName}`.trim()}>
+        <div className={[s('select__container'), containerClassName].filter(Boolean).join(' ')}>
             {label && (
                 <label
                     htmlFor={selectId}
-                    className={`select__label${error ? " select__label--error" : ""} ${labelClassName}`.trim()}
+                    className={[s('select__label'), error ? s('select__label--error') : '', labelClassName].filter(Boolean).join(' ')}
                 >
                     {label}
                 </label>
@@ -55,18 +56,16 @@ const Select: FC<SelectProps> = ({
 
             <div
                 className={[
-                    "select__wrapper",
-                    error ? "select__wrapper--error" : "",
-                    disabled ? "select__wrapper--disabled" : "",
-                ]
-                    .filter(Boolean)
-                    .join(" ")}
+                    s('select__wrapper'),
+                    error ? s('select__wrapper--error') : '',
+                    disabled ? s('select__wrapper--disabled') : '',
+                ].filter(Boolean).join(' ')}
             >
                 <select
                     {...props}
                     id={selectId}
                     disabled={disabled || isLoading}
-                    className={`select__field ${className}`.trim()}
+                    className={[s('select__field'), className].filter(Boolean).join(' ')}
                     onFocus={(event) => {
                         setIsFocused(true);
                         props.onFocus?.(event);
@@ -94,9 +93,7 @@ const Select: FC<SelectProps> = ({
                 </select>
 
                 <span
-                    className={`select__icon ${
-                        isFocused ? "select__icon--open" : ""
-                    }`}
+                    className={[s('select__icon'), isFocused ? s('select__icon--open') : ''].filter(Boolean).join(' ')}
                     aria-hidden="true"
                 >
                     <Icon
@@ -107,13 +104,13 @@ const Select: FC<SelectProps> = ({
             </div>
 
             {error && (
-                <p className={`select__description select__description--error ${errorClassName}`.trim()}>
+                <p className={[s('select__description'), s('select__description--error'), errorClassName].filter(Boolean).join(' ')}>
                     {error}
                 </p>
             )}
 
             {description && !error && (
-                <p className={`select__description ${descriptionClassName}`.trim()}>
+                <p className={[s('select__description'), descriptionClassName].filter(Boolean).join(' ')}>
                     {description}
                 </p>
             )}

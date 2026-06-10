@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import Radio from "./Radio";
 import type { RadioProps } from "./Radio";
-import "./Radio.css";
+import styles from "./Radio.module.css";
+const s = (cls: string): string => styles[cls] ?? '';
 
 export interface RadioOption extends Omit<RadioProps, "checked" | "onChange" | "name" | "value"> {
     value: string;
@@ -41,26 +42,26 @@ const RadioGroup: FC<RadioGroupProps> = ({
                                              errorClassName = "",
                                          }) => {
     return (
-        <fieldset className={`radio-group ${containerClassName}`.trim()}>
+        <fieldset className={[s('radio-group'), containerClassName].filter(Boolean).join(' ')}>
             {label && (
-                <legend className={`radio-group__label${error ? " radio-group__label--error" : ""} ${labelClassName}`.trim()}>
+                <legend className={[s('radio-group__label'), error ? s('radio-group__label--error') : '', labelClassName].filter(Boolean).join(' ')}>
                     {label}
                 </legend>
             )}
 
             {description && !error && (
-                <p className={`radio-group__description ${descriptionClassName}`.trim()}>
+                <p className={[s('radio-group__description'), descriptionClassName].filter(Boolean).join(' ')}>
                     {description}
                 </p>
             )}
 
             {error && (
-                <p className={`radio-group__description radio-group__description--error ${errorClassName}`.trim()}>
+                <p className={[s('radio-group__description'), s('radio-group__description--error'), errorClassName].filter(Boolean).join(' ')}>
                     {error}
                 </p>
             )}
 
-            <div className={`radio-group__items ${className}`.trim()}>
+            <div className={[s('radio-group__items'), className].filter(Boolean).join(' ')}>
                 {options.map(({ value: optionValue, ...option }) => {
                     const radioId = `${name}-${optionValue}`;
 
