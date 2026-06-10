@@ -5,113 +5,301 @@ import { Meta } from '@storybook/addon-docs/blocks';
 # Foundations
 
 Foundations are the base layer of the design system.
+They define visual consistency across all components via **CSS variables** (design tokens).
 
-They define visual consistency across all components.
+All tokens are defined globally in `style.css` and are automatically available in every component.
+They are also exported as a typed TypeScript object — `tokens` — for programmatic use.
 
 ---
 
 ## Colors
 
-The design system uses semantic color tokens.
+The design system uses **semantic color tokens** — each token has a meaning, not just a value.
+This allows themes to swap color values without changing component code.
 
 ```css
---background
---foreground
---primary
---primary-foreground
---muted
---muted-foreground
---destructive
---destructive-foreground
---border
---input
+--background          /* page / surface background */
+--foreground          /* primary text color */
+
+--primary             /* brand / action color */
+--primary-foreground  /* text on primary background */
+
+--muted               /* subtle background (inputs, cards) */
+--muted-foreground    /* secondary / helper text */
+
+--destructive             /* error / danger color */
+--destructive-foreground  /* text on destructive background */
+
+--border   /* borders, dividers */
+--input    /* placeholder / icon color inside inputs */
+--ring     /* focus ring color */
 ```
 
-### Example
+### Default values (light blue theme)
 
 ```css
 :root {
-  --background: #f4f6f9;
-  --foreground: #1e293b;
-
-  --primary: #3d7ab8;
+  --background:         #f4f6f9;
+  --foreground:         #1e293b;
+  --primary:            #2f669c;
   --primary-foreground: #ffffff;
+  --muted:              #eef2f6;
+  --muted-foreground:   #526173;
+  --destructive:        #dc2626;
+  --destructive-foreground: #ffffff;
+  --border:             #c9d3df;
+  --input:              #526173;
+  --ring:               #2f669c;
 }
+```
+
+### TypeScript tokens
+
+All color tokens are available as a typed object:
+
+```tsx
+import { tokens } from '@aghanim1206/ui-react';
+
+// Safe programmatic usage — IDE autocomplete included
+tokens.colors.primary            // 'var(--primary)'
+tokens.colors.background         // 'var(--background)'
+tokens.colors.mutedForeground    // 'var(--muted-foreground)'
+
+// Use in inline styles
+<div style={{ color: tokens.colors.primary }} />
+
+// Use in chart / canvas libraries
+const chartPalette = {
+  primary: tokens.colors.primary,
+  muted:   tokens.colors.muted,
+};
 ```
 
 ---
 
 ## Typography
 
-Typography is managed through font size, line height and weight tokens.
+Typography is controlled through font size, line height and weight tokens.
+
+### Font sizes
 
 ```css
---text-xs
---text-sm
---text-base
---text-lg
---text-xl
---text-2xl
---text-3xl
---text-4xl
---text-5xl
+--text-xs    /* 0.75rem  / 12px */
+--text-sm    /* 0.875rem / 14px */
+--text-base  /* 1rem     / 16px */
+--text-lg    /* 1.125rem / 18px */
+--text-xl    /* 1.25rem  / 20px */
+--text-2xl   /* 1.5rem   / 24px */
+--text-3xl   /* 1.875rem / 30px */
+--text-4xl   /* 2.25rem  / 36px */
+--text-5xl   /* 3rem     / 48px */
 ```
 
-Font weights:
+Each size has a matching line height token: `--text-sm--line-height`, `--text-base--line-height`, etc.
+
+### Font weights
 
 ```css
---font-weight-normal
---font-weight-medium
---font-weight-semibold
---font-weight-bold
+--font-weight-normal:   400;
+--font-weight-medium:   500;
+--font-weight-semibold: 600;
+--font-weight-bold:     700;
 ```
+
+### Font families
+
+```css
+--font-sans: "Poppins", system-ui, sans-serif;
+--font-mono: "SFMono-Regular", Consolas, monospace;
+```
+
+### Usage with the `Typography` component
+
+```tsx
+import { Typography } from '@aghanim1206/ui-react';
+
+<Typography variant="h1">Page title</Typography>
+<Typography variant="h4">Section title</Typography>
+<Typography variant="p">Body paragraph</Typography>
+<Typography variant="p-sm" color="muted">Helper text</Typography>
+<Typography variant="label">Form label</Typography>
+<Typography variant="p-xs" color="destructive">Error message</Typography>
+```
+
+| Variant | Element | Size |
+|---|---|---|
+| `h1` | `<h1>` | 5xl / bold |
+| `h2` | `<h2>` | 4xl / bold |
+| `h3` | `<h3>` | 3xl / semibold |
+| `h4` | `<h4>` | 2xl / semibold |
+| `h5` | `<h5>` | xl / medium |
+| `h6` | `<h6>` | lg / medium |
+| `p` | `<p>` | base / normal |
+| `p-sm` | `<p>` | sm / normal |
+| `p-xs` | `<p>` | xs / normal |
+| `label` | `<label>` | sm / medium |
 
 ---
 
 ## Spacing
 
-Spacing tokens are based on a consistent scale.
+Spacing tokens follow a consistent scale (multiples of 0.25rem).
 
 ```css
---spacing-1: 0.25rem;
---spacing-2: 0.5rem;
---spacing-4: 1rem;
---spacing-6: 1.5rem;
+--spacing-0:  0rem;
+--spacing-1:  0.25rem;   /*  4px */
+--spacing-2:  0.5rem;    /*  8px */
+--spacing-3:  0.75rem;   /* 12px */
+--spacing-4:  1rem;      /* 16px */
+--spacing-5:  1.25rem;   /* 20px */
+--spacing-6:  1.5rem;    /* 24px */
+--spacing-8:  2rem;      /* 32px */
+--spacing-10: 2.5rem;    /* 40px */
+--spacing-12: 3rem;      /* 48px */
+--spacing-16: 4rem;      /* 64px */
+```
+
+```tsx
+import { tokens } from '@aghanim1206/ui-react';
+
+<div style={{ padding: tokens.spacing[4], gap: tokens.spacing[2] }} />
 ```
 
 ---
 
-## Radius
+## Border Radius
 
-Radius tokens are used to keep border radius consistent.
+Radius tokens keep border rounding consistent across all components.
 
 ```css
---radius-sm
---radius-md
---radius-lg
---radius-xl
---radius-full
+--radius-sm:   0.25rem;   /*  4px */
+--radius-md:   0.375rem;  /*  6px */
+--radius-lg:   0.5rem;    /*  8px */
+--radius-xl:   0.75rem;   /* 12px */
+--radius-2xl:  1rem;      /* 16px */
+--radius-full: 9999px;    /* pill */
+```
+
+```tsx
+import { tokens } from '@aghanim1206/ui-react';
+
+<div style={{ borderRadius: tokens.radius.xl }} />
 ```
 
 ---
 
 ## Themes
 
-Themes are controlled with CSS classes.
+The design system ships with **6 built-in themes**: 3 color palettes × light/dark mode.
 
-```html
-<div class="theme-green">
-  ...
-</div>
+### Available themes
 
-<div class="theme-purple dark">
-  ...
-</div>
+| Theme name | CSS classes to apply |
+|---|---|
+| Blue light (default) | *(none — `:root` defaults)* |
+| Blue dark | `dark` |
+| Green light | `theme-green` |
+| Green dark | `theme-green dark` |
+| Purple light | `theme-purple` |
+| Purple dark | `theme-purple dark` |
+
+### Option 1 — `ThemeProvider` (recommended)
+
+```tsx
+import { ThemeProvider, useTheme } from '@aghanim1206/ui-react';
+import type { ThemeName } from '@aghanim1206/ui-react';
+
+// Global (applies classes on <html>)
+<ThemeProvider defaultTheme="light" global>
+  <App />
+</ThemeProvider>
+
+// Scoped (applies classes on a wrapper div — useful for side-by-side previews)
+<ThemeProvider defaultTheme="purple">
+  <PreviewSection />
+</ThemeProvider>
 ```
 
-Available themes:
+Switch theme at runtime with `useTheme`:
 
-- Default
-- Green
-- Purple
-- Dark mode
+```tsx
+const { theme, setTheme } = useTheme();
+
+setTheme('dark');
+setTheme('greenDark');
+setTheme('purpleDark');
+```
+
+Available `ThemeName` values: `light` · `dark` · `green` · `greenDark` · `purple` · `purpleDark`
+
+### Option 2 — CSS classes manually
+
+```html
+<html class="dark">               <!-- blue dark  -->
+<html class="theme-green">        <!-- green light -->
+<html class="theme-purple dark">  <!-- purple dark -->
+```
+
+### Option 3 — Override tokens in your app
+
+You can override any token in your own CSS to create a fully custom theme:
+
+```css
+:root {
+  --primary:            #e11d48;  /* rose */
+  --primary-foreground: #ffffff;
+  --background:         #fafafa;
+}
+
+.dark {
+  --primary:    #fb7185;
+  --background: #09090b;
+  --foreground: #fafafa;
+}
+```
+
+> Components automatically pick up the overridden values — no component code changes needed.
+
+---
+
+## Tailwind Integration
+
+### Tailwind v4
+
+```css
+@import 'tailwindcss';
+@import '@aghanim1206/ui-react/style.css';
+
+@theme inline {
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-destructive:        var(--destructive);
+  --color-border:             var(--border);
+  --color-ring:               var(--ring);
+  --radius-sm:  var(--radius-sm);
+  --radius-md:  var(--radius-md);
+  --radius-lg:  var(--radius-lg);
+  --radius-xl:  var(--radius-xl);
+  --font-sans:  var(--font-sans);
+}
+```
+
+Then use tokens directly as Tailwind utilities:
+
+```tsx
+<div className="bg-primary text-primary-foreground rounded-lg px-4 py-2" />
+<div className="bg-background text-foreground border border-border" />
+<p className="text-muted-foreground text-sm" />
+```
+
+### Tailwind v3
+
+```js
+// tailwind.config.js
+import preset from '@aghanim1206/ui-react/tailwind';
+export default { presets: [preset], content: ['./src/**/*.{ts,tsx}'] };
+```

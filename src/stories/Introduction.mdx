@@ -4,62 +4,111 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # AGH UI
 
-AGH UI is a modern React design system built with TypeScript, Vite, Storybook and CSS Variables.
+**AGH UI** is a modern, token-first React design system built with **React 19**, **TypeScript**, **Vite**, **CSS Modules** and **CSS Variables**.
 
-It provides reusable, themeable and accessible UI components for building consistent web applications.
+It provides reusable, themeable and accessible UI components for building consistent web applications — with first-class **Tailwind CSS** support.
+
+📦 Package: `@aghanim1206/ui-react`
+📖 npm: [npmjs.com/package/@aghanim1206/ui-react](https://www.npmjs.com/package/@aghanim1206/ui-react)
 
 ---
 
 ## Goals
 
 - Build consistent interfaces faster
-- Centralize design decisions
-- Improve developer experience
-- Support light and dark themes
-- Keep components simple, reusable and maintainable
+- Centralize design decisions (colors, spacing, radius, typography) in CSS variables
+- **Isolate component styles** — internal classes never leak into consumer apps (CSS Modules)
+- Support **6 built-in themes**: light/dark × 3 color palettes (blue, green, purple)
+- Provide a plug-and-play **Tailwind v3 preset** and a **Tailwind v4 `@theme` snippet**
+- Full TypeScript coverage with **typed design tokens**
+
+---
+
+## Installation
+
+```bash
+npm install @aghanim1206/ui-react
+# or
+pnpm add @aghanim1206/ui-react
+```
+
+---
+
+## Quick start
+
+```tsx
+// main.tsx
+import { ThemeProvider, ToastProvider } from '@aghanim1206/ui-react';
+import '@aghanim1206/ui-react/style.css';
+
+createRoot(document.getElementById('root')!).render(
+  <ThemeProvider defaultTheme="light" global>
+    <ToastProvider>
+      <App />
+    </ToastProvider>
+  </ThemeProvider>
+);
+```
+
+```tsx
+// Any component
+import { Button, Input, Card } from '@aghanim1206/ui-react';
+
+export function LoginCard() {
+  return (
+    <Card>
+      <Input label="Email" type="email" placeholder="you@example.com" />
+      <Input label="Password" type="password" />
+      <Button variant="primary" label="Sign in" />
+    </Card>
+  );
+}
+```
 
 ---
 
 ## Tech Stack
 
-- React
-- TypeScript
-- Vite
-- Storybook
-- CSS Variables
-- BEM CSS architecture
+| Tool | Role |
+|---|---|
+| **React 19** | UI library |
+| **TypeScript** | Full type coverage |
+| **Vite 8** | Build tool & library bundler |
+| **CSS Modules** | Style isolation (no class leaks) |
+| **CSS Variables** | Design tokens & theming |
+| **Storybook 10** | Component documentation |
 
 ---
 
-## Current Components
+## Components
 
-- Typography
-- Icon
-- Button
-- Badge
-- Input
-- Textarea
-- Checkbox
-- Radio
-- Select
-- Card
+| Category | Components |
+|---|---|
+| **Typography** | `Typography` |
+| **Actions** | `Button` |
+| **Feedback** | `Badge`, `Toast` |
+| **Layout** | `Card` |
+| **Form fields** | `Input`, `Textarea`, `Select` |
+| **Selection** | `Checkbox`, `CheckboxGroup`, `Radio`, `RadioGroup` |
+| **Overlay** | `Tooltip` |
+| **Icons** | `Icon` |
+| **Theme** | `ThemeProvider`, `useTheme` |
 
 ---
 
 ## Design Principles
 
-### Token-first
+### 🎨 Token-first
+Colors, spacing, typography and radius are managed through CSS variables. Change a token → all components update automatically.
 
-Colors, spacing, typography and radius are managed through CSS variables.
+### 🧩 Style isolation
+All component styles are scoped via **CSS Modules**. Internal class names (e.g. `input__label`) are hashed at build time and never appear in consumer apps.
 
-### Accessible by default
+### 🌬️ Tailwind-ready
+Map the design tokens to Tailwind utilities in a single CSS block — then use `bg-primary`, `text-foreground`, `border-border` in your own markup.
 
-Components include semantic HTML, focus states, disabled states and error states.
+### ♿ Accessible by default
+Components include semantic HTML, keyboard navigation, `:focus-visible` states, `aria-*` attributes, and error/disabled state management.
 
-### Themeable
-
-The system supports multiple themes using CSS variables.
-
-### Simple API
-
-Each component exposes a small and predictable API.
+### 🔷 Simple and predictable API
+Each component exposes a small, consistent set of props: `variant`, `size`, `label`, `error`, `disabled`, `className`.

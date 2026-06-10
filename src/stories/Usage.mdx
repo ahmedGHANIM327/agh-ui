@@ -4,119 +4,470 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Usage Guide
 
-This guide explains how to use Shifae UI components consistently.
+This guide covers how to install, configure and use AGH UI components in a React application.
 
 ---
 
-## Component Import
+## Installation
+
+```bash
+npm install @aghanim1206/ui-react
+# or
+pnpm add @aghanim1206/ui-react
+```
+
+---
+
+## Setup
+
+### 1. Import the stylesheet
+
+Import the CSS once in your app entry point. It contains all design tokens (CSS variables) and theme definitions.
+
+```ts
+// main.tsx / index.tsx
+import '@aghanim1206/ui-react/style.css';
+```
+
+### 2. Wrap with providers
+
+```tsx
+import { ThemeProvider, ToastProvider } from '@aghanim1206/ui-react';
+
+createRoot(document.getElementById('root')!).render(
+  <ThemeProvider defaultTheme="light" global>
+    <ToastProvider>
+      <App />
+    </ToastProvider>
+  </ThemeProvider>
+);
+```
+
+`ThemeProvider` — manages the active theme (applies CSS classes on `<html>` in `global` mode).
+
+`ToastProvider` — required only if you use the `toast()` function.
+
+---
+
+## Component import
 
 ```tsx
 import {
-    Button,
-    Input,
-    Card,
-    Select,
-    Textarea
-} from 'agh-ui';
+  Button,
+  Input,
+  Textarea,
+  Select,
+  Checkbox,
+  CheckboxGroup,
+  Radio,
+  RadioGroup,
+  Card,
+  Badge,
+  Typography,
+  Icon,
+  Tooltip,
+  ToastProvider,
+  toast,
+  ThemeProvider,
+  useTheme,
+} from '@aghanim1206/ui-react';
+import type { ThemeName } from '@aghanim1206/ui-react';
 ```
 
 ---
 
-## Basic Example
-
-```tsx
-import {
-    Button,
-    Input,
-    Card
-} from 'agh-ui';
-
-export const Example = () => {
-  return (
-    <Card>
-      <Input
-        label="Email"
-        placeholder="john@example.com"
-        description="Enter your email address."
-      />
-
-      <Button
-        variant="primary"
-        label="Submit"
-      />
-    </Card>
-  );
-};
-```
-
----
-
-## Styling Convention
-
-Components use BEM-style CSS classes.
-
-```css
-.button
-.button--primary
-.button--sm
-.button__label
-```
-
----
-
-## Component API Rules
+## Component API rules
 
 ### Variants
 
-Variants describe visual intent.
-
-Examples:
+Variants describe the visual intent of a component.
 
 ```tsx
+<Button variant="default" />
 <Button variant="primary" />
 <Button variant="outline" />
 <Button variant="destructive" />
+<Button variant="ghost" />
+<Button variant="link" />
+
+<Badge variant="default" />
+<Badge variant="primary" />
+<Badge variant="outline" />
+<Badge variant="destructive" />
 ```
 
 ### Sizes
-
-Sizes describe component scale.
 
 ```tsx
 <Button size="sm" />
 <Button size="default" />
 <Button size="lg" />
+<Button size="icon" iconName="settings" />
 ```
 
 ### States
 
-Components support common UI states.
-
 ```tsx
 <Button disabled />
-<Button isLoading />
-<Input error="This field is required" />
+<Button isLoading label="Saving…" />
+
+<Input error="This field is required." />
+<Input disabled />
+
+<Checkbox disabled />
+<Checkbox error="You must accept the terms." />
+```
+
+### Icons
+
+All components that accept icons use the `iconName` prop (typed as `IconName` — IDE autocomplete):
+
+```tsx
+<Button iconName="plus" label="Add item" />
+<Button iconName="trash" variant="destructive" label="Delete" />
+<Badge  iconName="check" label="Verified" />
+<Icon   name="alertTriangle" size={20} />
 ```
 
 ---
 
-## Accessibility Guidelines
+## Forms
 
-Use labels for all form fields.
-
-```tsx
-<Input label="Email" />
-<Select label="Country" />
-<Textarea label="Description" />
-```
-
-Use error messages for invalid states.
+### Input
 
 ```tsx
 <Input
   label="Email"
-  error="Email is required"
+  type="email"
+  placeholder="you@example.com"
+  description="We'll never share your email."
+/>
+
+<Input
+  label="Password"
+  type="password"
+/>
+
+<Input
+  label="Username"
+  error="This username is already taken."
+/>
+
+<Input label="Disabled field" disabled />
+```
+
+> `Input` handles password visibility toggle automatically when `type="password"`.
+
+### Textarea
+
+```tsx
+<Textarea
+  label="Message"
+  placeholder="Write your message…"
+  rows={5}
+  description="Max 500 characters."
+/>
+
+<Textarea label="Feedback" error="Feedback is required." />
+```
+
+### Select
+
+```tsx
+<Select
+  label="Country"
+  placeholder="Select a country"
+  options={[
+    { label: 'France',        value: 'fr' },
+    { label: 'Algeria',       value: 'dz' },
+    { label: 'United States', value: 'us' },
+  ]}
+/>
+
+<Select
+  label="Status"
+  options={statusOptions}
+  error="Please select a status."
+/>
+
+<Select label="Loading…" options={[]} isLoading />
+```
+
+### Checkbox & CheckboxGroup
+
+```tsx
+// Single checkbox
+<Checkbox
+  label="I agree to the terms of service"
+  description="Required to create an account."
+/>
+
+<Checkbox label="Subscribe to newsletter" />
+<Checkbox label="Disabled option" disabled />
+<Checkbox label="Accept terms" error="You must accept the terms." />
+
+// Group
+<CheckboxGroup
+  label="Notifications"
+  description="Choose how you want to be notified."
+  options={[
+    { value: 'email', label: 'Email' },
+    { value: 'sms',   label: 'SMS',   description: 'Standard rates apply.' },
+    { value: 'push',  label: 'Push notifications' },
+  ]}
+  value={selected}
+  onChange={setSelected}
+/>
+
+<CheckboxGroup
+  label="Permissions"
+  options={permissionOptions}
+  error="Select at least one option."
+  value={selected}
+  onChange={setSelected}
+```
+
+### Radio & RadioGroup
+
+```tsx
+<RadioGroup
+  name="plan"
+  label="Subscription plan"
+  description="You can change this later."
+  options={[
+    { value: 'free',  label: 'Free',  description: 'Up to 3 projects.' },
+    { value: 'pro',   label: 'Pro',   description: 'Unlimited projects.' },
+    { value: 'team',  label: 'Team',  description: 'Collaborative workspace.' },
+  ]}
+  value={plan}
+  onChange={setPlan}
 />
 ```
 
-Avoid using placeholders as labels.
+---
+
+## Feedback
+
+### Badge
+
+```tsx
+<Badge label="New" />
+<Badge variant="primary"     label="Active" />
+<Badge variant="outline"     label="Draft" />
+<Badge variant="destructive" label="Archived" />
+
+<Badge variant="primary" iconName="check"         label="Verified" size="sm" />
+<Badge                   iconName="alertTriangle"  label="Warning"  size="lg" />
+```
+
+### Toast
+
+```tsx
+// Trigger from anywhere — no prop drilling needed
+toast('Profile saved successfully.');
+
+toast('File uploaded.', {
+  type:     'success',
+  position: 'bottom-right',
+});
+
+toast('Something went wrong.', {
+  type:        'error',
+  autoClose:   false,
+  description: 'Please try again later.',
+});
+
+toast('Disk space low.', {
+  type:     'warning',
+  duration: 6000,
+});
+```
+
+---
+
+## Layout & display
+
+### Card
+
+```tsx
+<Card>
+  <p>Any content goes here.</p>
+</Card>
+
+// Combine with Tailwind or inline styles
+<Card className="flex flex-col gap-4">
+  <Typography variant="h4">Order summary</Typography>
+  {/* … */}
+</Card>
+```
+
+### Tooltip
+
+```tsx
+<Tooltip content="Save your changes">
+  <Button size="icon" iconName="save" />
+</Tooltip>
+
+<Tooltip content="Opens in a new tab" position="right">
+  <a href="/docs">Documentation</a>
+</Tooltip>
+
+<Tooltip content="Disabled — no permission" position="bottom">
+  <span>
+    <Button disabled label="Publish" />
+  </span>
+</Tooltip>
+```
+
+---
+
+## Theming at runtime
+
+### ThemeProvider + useTheme
+
+```tsx
+import { ThemeProvider, useTheme } from '@aghanim1206/ui-react';
+import type { ThemeName } from '@aghanim1206/ui-react';
+
+// Wrap once at the root
+<ThemeProvider defaultTheme="light" global>
+  <App />
+</ThemeProvider>
+
+// Switch from any child component
+function ThemeSwitcher() {
+  const { theme, setTheme } = useTheme();
+
+  const themes: { name: ThemeName; label: string }[] = [
+    { name: 'light',      label: '☀️ Light'       },
+    { name: 'dark',       label: '🌙 Dark'         },
+    { name: 'green',      label: '🌿 Green'        },
+    { name: 'greenDark',  label: '🌲 Green Dark'   },
+    { name: 'purple',     label: '💜 Purple'       },
+    { name: 'purpleDark', label: '🌌 Purple Dark'  },
+  ];
+
+  return (
+    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+      {themes.map(({ name, label }) => (
+        <Button
+          key={name}
+          label={label}
+          variant={theme === name ? 'primary' : 'outline'}
+          size="sm"
+          onClick={() => setTheme(name)}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+---
+
+## Accessibility guidelines
+
+Always provide a `label` for form fields — never rely on `placeholder` alone:
+
+```tsx
+// ✅ Correct
+<Input label="Email" placeholder="you@example.com" />
+
+// ❌ Avoid
+<Input placeholder="Email" />
+```
+
+Always provide an error message when a field is invalid:
+
+```tsx
+<Input  label="Email"   error="A valid email is required." />
+<Select label="Country" error="Please select a country." />
+<CheckboxGroup label="Options" options={opts} error="Select at least one." />
+```
+
+Use `aria-label` on icon-only buttons:
+
+```tsx
+<Button size="icon" iconName="x" aria-label="Close dialog" />
+```
+
+Wrap disabled buttons in a `<span>` when inside a `Tooltip` (disabled elements don't fire mouse events):
+
+```tsx
+<Tooltip content="No permission to publish">
+  <span>
+    <Button disabled label="Publish" />
+  </span>
+</Tooltip>
+```
+
+---
+
+## Complete example
+
+```tsx
+import {
+  Button, Card, Input, Select, Textarea,
+  CheckboxGroup, Typography, Badge,
+  ToastProvider, toast, ThemeProvider,
+} from '@aghanim1206/ui-react';
+import '@aghanim1206/ui-react/style.css';
+
+function ContactForm() {
+  const [notifs, setNotifs] = useState<string[]>([]);
+
+  return (
+    <Card>
+      <Typography variant="h3">Contact us</Typography>
+      <Typography variant="p-sm" color="muted">
+        We'll get back to you within 24 hours.
+      </Typography>
+
+      <Input label="Full name"    placeholder="Jane Doe" />
+      <Input label="Email"        type="email" placeholder="jane@example.com" />
+
+      <Select
+        label="Subject"
+        placeholder="Choose a subject"
+        options={[
+          { label: 'General inquiry', value: 'general' },
+          { label: 'Technical issue', value: 'tech'    },
+          { label: 'Billing',         value: 'billing' },
+        ]}
+      />
+
+      <Textarea label="Message" placeholder="Describe your issue…" rows={4} />
+
+      <CheckboxGroup
+        label="Notify me by"
+        options={[
+          { value: 'email', label: 'Email' },
+          { value: 'sms',   label: 'SMS'   },
+        ]}
+        value={notifs}
+        onChange={setNotifs}
+      />
+
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+        <Button variant="outline" label="Cancel" />
+        <Button
+          variant="primary"
+          label="Send message"
+          iconName="send"
+          onClick={() => toast('Message sent!', { type: 'success' })}
+        />
+      </div>
+    </Card>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider defaultTheme="light" global>
+      <ToastProvider>
+        <ContactForm />
+      </ToastProvider>
+    </ThemeProvider>
+  );
+}
+```
