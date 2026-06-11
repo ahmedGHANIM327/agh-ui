@@ -195,15 +195,18 @@
     --border: #d4c9e8;
 }
 
-body {
-    font-family: var(--font-sans);
+@layer base {
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: var(--font-sans);
+    }
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
 
 .spinner-icon {
     animation: spin 2s linear infinite;
