@@ -213,8 +213,6 @@ const Toast = ({
                    closeButtonClassName = "",
                }: ToastItem) => {
 
-    console.log('type', type);
-
     const  nameIcon = iconName ?? ( type !== "default" ? {
         success: "check",
         error: "x",

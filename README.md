@@ -531,6 +531,55 @@ import { Tooltip, Button } from "@aghanim1206/ui-react";
 
 ---
 
+### Dialog
+
+```tsx
+import { Dialog } from "@aghanim1206/ui-react";
+
+// With built-in trigger
+<Dialog
+  isOpen={open}
+  onOpenChange={setOpen}
+  trigger={<Button label="Open dialog" />}
+>
+  <Typography variant="h3">Confirm action</Typography>
+  <Typography variant="p-sm" color="muted">Are you sure you want to proceed?</Typography>
+  <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
+    <Button variant="outline" label="Cancel" onClick={() => setOpen(false)} />
+    <Button variant="primary" label="Confirm" onClick={() => setOpen(false)} />
+  </div>
+</Dialog>
+
+// Controlled externally (no trigger)
+<Dialog isOpen={open} onOpenChange={setOpen}>
+  <Typography variant="h3">Edit profile</Typography>
+  {/* … */}
+</Dialog>
+
+// Without overlay
+<Dialog isOpen={open} onOpenChange={setOpen} showOverlay={false} trigger={<Button label="Open" />}>
+  {/* … */}
+</Dialog>
+```
+
+> Dialog is rendered in a **dedicated portal** (`document.body`) — it always sits on top of the page regardless of stacking contexts.
+
+| Prop | Type | Default |
+|---|---|---|
+| `isOpen` | `boolean` | — |
+| `onOpenChange` | `(open: boolean) => void` | — |
+| `children` | `ReactNode` | — |
+| `trigger` | `ReactNode` | — |
+| `showOverlay` | `boolean` | `true` |
+| `closeOnOverlayClick` | `boolean` | `true` |
+| `closeOnEsc` | `boolean` | `true` |
+| `closeButton` | `boolean` | `true` |
+| `overlayClassName` | `string` | — |
+| `contentClassName` | `string` | — |
+| `closeButtonClassName` | `string` | — |
+
+---
+
 ### Card
 
 ```tsx
@@ -694,7 +743,6 @@ pnpm build
 
 ## Roadmap
 
-- [ ] Modal / Dialog
 - [ ] Dropdown Menu
 - [ ] Combobox / Autocomplete
 - [ ] Date Picker
