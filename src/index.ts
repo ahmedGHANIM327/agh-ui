@@ -17,6 +17,8 @@ export {
     toast
 } from "./components/toast/Toast";
 export { default as Tooltip } from "./components/tooltip/Tooltip";
+export { default as Dialog } from "./components/dialog/Dialog";
+export type { DialogProps } from "./components/dialog/Dialog";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";
