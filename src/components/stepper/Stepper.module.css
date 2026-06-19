@@ -1,0 +1,155 @@
+/* ── Root ── */
+.stepper {
+    display: flex;
+    width: 100%;
+}
+.stepper--horizontal {
+    flex-direction: row;
+    align-items: flex-start;
+}
+.stepper--vertical {
+    flex-direction: column;
+}
+/* ────────────────────────────────────────
+   Horizontal connector
+   Rendered by Stepper between Step nodes.
+   Uses flex:1 to fill all available space.
+   margin-block-start centers it on the badge.
+──────────────────────────────────────── */
+.stepper__connector {
+    flex: 1;
+    height: 2px;
+    align-self: flex-start;
+    /* center vertically on badge (2rem tall): (2rem - 2px) / 2 = 1rem - 1px */
+    margin-block-start: calc(1rem - 1px);
+    min-width: 1rem;
+    background-color: var(--border);
+    border-radius: var(--radius-full);
+    transition: background-color 250ms ease;
+}
+.stepper__connector--filled {
+    background-color: var(--primary);
+}
+/* ── Step (shared) ── */
+.step {
+    display: flex;
+    flex-shrink: 0;
+}
+/* Horizontal: column (badge on top, text below, centered) */
+.step--horizontal {
+    flex-direction: column;
+    align-items: center;
+    min-width: 5rem;
+}
+/* Vertical: row (track on the inline-start side, text on inline-end) */
+.step--vertical {
+    flex-direction: row;
+    align-items: stretch;   /* track and content share the same height */
+    gap: var(--spacing-3);
+    width: 100%;
+}
+/* ────────────────────────────────────────
+   Track  (badge  +  vertical connector)
+   align-items: center keeps connector
+   aligned under badge center.
+──────────────────────────────────────── */
+.step__track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 2rem; /* matches badge size */
+}
+/* ── Badge ── */
+.step__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    transition: background-color 250ms ease, color 250ms ease;
+}
+.step__badge--upcoming {
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+}
+.step__badge--attended {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+}
+/* ── Dot (default badge content) ── */
+.step__dot {
+    display: block;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: var(--radius-full);
+    background-color: currentColor;
+    opacity: 0.7;
+}
+/* ────────────────────────────────────────
+   Vertical connector
+   Lives inside .step__track so it grows
+   automatically with the step content
+   (track height = content height via
+   align-items: stretch on the step row).
+──────────────────────────────────────── */
+.step__v-connector {
+    flex: 1;
+    width: 2px;
+    min-height: 0;
+    margin-block-start: var(--spacing-1);
+    background-color: var(--border);
+    border-radius: var(--radius-full);
+    transition: background-color 250ms ease;
+}
+.step__v-connector--filled {
+    background-color: var(--primary);
+}
+/* ── Content ── */
+.step__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+/* Horizontal: centered text, capped width */
+.step__content--horizontal {
+    align-items: center;
+    text-align: center;
+    margin-block-start: var(--spacing-2);
+    max-width: 8rem;
+}
+/* Vertical: title aligns with badge center, bottom padding feeds the connector */
+.step__content--vertical {
+    flex: 1;
+    /* nudge title so its cap-height aligns with badge center
+       badge = 2rem, text-sm line-height ≈ 1.25rem → offset = (2rem - 1.25rem) / 2 */
+    padding-block-start: calc((2rem - 1.25rem) / 2);
+    padding-block-end: var(--spacing-8);
+}
+/* Last step has no connector → no bottom padding needed */
+.step__content--vertical.step__content--last {
+    padding-block-end: 0;
+}
+/* ── Title ── */
+.step__title {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+    transition: color 250ms ease;
+}
+.step__title--upcoming {
+    color: var(--muted-foreground);
+}
+.step__title--attended {
+    color: var(--foreground);
+}
+/* ── Description ── */
+.step__description {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    color: var(--muted-foreground);
+}

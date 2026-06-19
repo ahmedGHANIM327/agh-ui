@@ -488,6 +488,142 @@ import { Switch } from "@aghanim1206/ui-react";
 
 ---
 
+### Tabs
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@aghanim1206/ui-react";
+
+// Default pill-style (horizontal)
+<Tabs defaultValue="account" variant="default">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="security">Security</TabsTrigger>
+    <TabsTrigger value="billing">Billing</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">…</TabsContent>
+  <TabsContent value="security">…</TabsContent>
+  <TabsContent value="billing">…</TabsContent>
+</Tabs>
+
+// Line / underline variant
+<Tabs defaultValue="account" variant="line">…</Tabs>
+
+// Vertical orientation
+<Tabs defaultValue="account" orientation="vertical">…</Tabs>
+
+// With a disabled trigger
+<TabsTrigger value="billing" disabled>Billing</TabsTrigger>
+
+// Controlled
+<Tabs value={activeTab} onValueChange={setActiveTab}>…</Tabs>
+```
+
+| Prop (`Tabs`) | Type | Default |
+|---|---|---|
+| `variant` | `"default"` \| `"line"` | `"default"` |
+| `orientation` | `"horizontal"` \| `"vertical"` | `"horizontal"` |
+| `defaultValue` | `string` | — |
+| `value` | `string` | — |
+| `onValueChange` | `(value: string) => void` | — |
+
+> `TabsContent` accepts any `ReactNode` — drop in forms, cards, settings panels, etc.
+
+---
+
+### Accordion
+
+```tsx
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@aghanim1206/ui-react";
+
+// Default flat variant — single open at a time
+<Accordion defaultValue="item-1" variant="default">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>What is AGH UI?</AccordionTrigger>
+    <AccordionContent>A token-first React design system.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>Yes — keyboard navigation and ARIA attributes are built in.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+// Outline — single bordered container
+<Accordion variant="outline" defaultValue="item-1">…</Accordion>
+
+// Card — each item is an independent card
+<Accordion variant="card" defaultValue="item-1">…</Accordion>
+
+// Multiple items open simultaneously
+<Accordion type="multiple" defaultValue={["item-1", "item-2"]}>…</Accordion>
+
+// Custom icons (root-level)
+<Accordion openIcon="plus" closeIcon="x">…</Accordion>
+
+// Per-item icon override
+<AccordionItem value="item-1" openIcon="chevronRight" closeIcon="chevronDown">…</AccordionItem>
+
+// Disabled item
+<AccordionItem value="item-2" disabled>…</AccordionItem>
+```
+
+| Prop (`Accordion`) | Type | Default |
+|---|---|---|
+| `variant` | `"default"` \| `"outline"` \| `"card"` | `"default"` |
+| `type` | `"single"` \| `"multiple"` | `"single"` |
+| `defaultValue` | `string \| string[]` | — |
+| `value` | `string \| string[]` | — |
+| `onValueChange` | `(value: string \| string[]) => void` | — |
+| `openIcon` | `IconName` | `"chevronDown"` |
+| `closeIcon` | `IconName` | `"chevronUp"` |
+
+---
+
+### Stepper
+
+```tsx
+import { Stepper, Step } from "@aghanim1206/ui-react";
+
+// Horizontal — default dot/check badges
+<Stepper current={1} direction="horizontal">
+  <Step title="Create Account"  description="Enter your credentials." />
+  <Step title="Verify Email"    description="Check your inbox." />
+  <Step title="Set Up Profile"  description="Personalize your experience." />
+  <Step title="All Done"        description="You're ready!" />
+</Stepper>
+
+// Vertical
+<Stepper current={2} direction="vertical">…</Stepper>
+
+// Custom badge — numbers
+<Stepper current={1}>
+  <Step title="Shipping"  step={1} />
+  <Step title="Payment"   step={2} />
+  <Step title="Review"    step={3} />
+</Stepper>
+
+// Custom badge — icons
+<Stepper current={1}>
+  <Step title="Account"  step={<Icon name="user"     size={14} />} />
+  <Step title="Security" step={<Icon name="settings" size={14} />} />
+  <Step title="Done"     step={<Icon name="check"    size={14} />} />
+</Stepper>
+```
+
+| Prop (`Stepper`) | Type | Default |
+|---|---|---|
+| `current` | `number` | — |
+| `direction` | `"horizontal"` \| `"vertical"` | `"horizontal"` |
+
+| Prop (`Step`) | Type | Default |
+|---|---|---|
+| `title` | `string` | — |
+| `description` | `string` | — |
+| `step` | `ReactNode` | dot / ✓ |
+
+> The connector line between two steps turns **primary** as soon as the following step is reached (`current > stepIndex`). Both default (dot/check) and custom badges are supported. RTL is handled automatically via `dir="rtl"`.
+
+---
+
 ### Badge
 
 ```tsx
@@ -784,11 +920,12 @@ pnpm build
 
 ## Roadmap
 
+- [x] Tabs
+- [x] Accordion
+- [x] Stepper
 - [ ] Dropdown Menu
 - [ ] Combobox / Autocomplete
 - [ ] Date Picker
-- [ ] Tabs
-- [ ] Accordion
 - [ ] Table
 
 ---

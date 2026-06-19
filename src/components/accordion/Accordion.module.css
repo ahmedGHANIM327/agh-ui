@@ -1,0 +1,117 @@
+/* ── Root ── */
+.accordion {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+/* default: flat list, items separated by dividers */
+.accordion--default {
+    gap: 0;
+}
+/* outline: single bordered container */
+.accordion--outline {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--background);
+}
+/* card: individual cards with gap */
+.accordion--card {
+    gap: var(--spacing-3);
+}
+/* ── Item ── */
+.accordion__item {
+    width: 100%;
+}
+/* default: bottom border on every item except the last */
+.accordion--default .accordion__item {
+    border-bottom: 1px solid var(--border);
+}
+.accordion--default .accordion__item:last-child {
+    border-bottom: none;
+}
+/* outline: internal dividers between items */
+.accordion--outline .accordion__item + .accordion__item {
+    border-top: 1px solid var(--border);
+}
+/* card: each item is its own card */
+.accordion--card .accordion__item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--background);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.03),
+        0 2px 6px rgba(0, 0, 0, 0.04);
+}
+.accordion__item--disabled {
+    opacity: 0.5;
+}
+/* ── Trigger ── */
+.accordion__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-3);
+    /* default variant: no horizontal padding (use content padding) */
+    padding: var(--spacing-4) 0;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-bold);
+    color: var(--foreground);
+    text-align: start;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    transition: color 150ms ease;
+}
+/* outline and card: add horizontal padding */
+.accordion--outline .accordion__trigger,
+.accordion--card    .accordion__trigger {
+    padding: var(--spacing-4) var(--spacing-5);
+}
+.accordion__trigger:hover:not(:disabled) {
+    color: var(--primary);
+}
+.accordion__trigger:focus-visible {
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+    outline: none;
+}
+.accordion__trigger--disabled {
+    cursor: not-allowed;
+}
+.accordion__trigger-label {
+    flex: 1;
+}
+/* ── Icon ── */
+.accordion__icon {
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+    transition: color 150ms ease;
+}
+.accordion__trigger:hover:not(:disabled) .accordion__icon {
+    color: var(--primary);
+}
+/* ── Content ── */
+.accordion__content {
+    animation: accordion-open 200ms ease;
+}
+.accordion__content-inner {
+    padding-bottom: var(--spacing-4);
+    padding-top: 0;
+    font-size: var(--text-sm);
+    line-height: 1.65;
+    color: var(--muted-foreground);
+}
+.accordion--outline .accordion__content-inner,
+.accordion--card    .accordion__content-inner {
+    padding-left:  var(--spacing-5);
+    padding-right: var(--spacing-5);
+}
+@keyframes accordion-open {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}

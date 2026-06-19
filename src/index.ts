@@ -21,6 +21,12 @@ export { default as Dialog } from "./components/dialog/Dialog";
 export type { DialogProps } from "./components/dialog/Dialog";
 export { default as Switch } from "./components/switch/Switch";
 export type { SwitchProps, SwitchVariant } from "./components/switch/Switch";
+export { default as Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs/Tabs";
+export type { TabsProps, TabsListProps, TabsTriggerProps, TabsContentProps, TabsVariant, TabsOrientation } from "./components/tabs/Tabs";
+export { default as Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./components/accordion/Accordion";
+export type { AccordionProps, AccordionItemProps, AccordionTriggerProps, AccordionContentProps, AccordionVariant, AccordionType } from "./components/accordion/Accordion";
+export { default as Stepper, Step } from "./components/stepper/Stepper";
+export type { StepperProps, StepProps, StepperDirection } from "./components/stepper/Stepper";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";
