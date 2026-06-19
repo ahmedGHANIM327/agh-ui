@@ -19,6 +19,8 @@ export {
 export { default as Tooltip } from "./components/tooltip/Tooltip";
 export { default as Dialog } from "./components/dialog/Dialog";
 export type { DialogProps } from "./components/dialog/Dialog";
+export { default as Switch } from "./components/switch/Switch";
+export type { SwitchProps, SwitchVariant } from "./components/switch/Switch";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";

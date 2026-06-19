@@ -61,6 +61,7 @@ import {
   CheckboxGroup,
   Radio,
   RadioGroup,
+  Switch,
   Card,
   Badge,
   Typography,
@@ -71,7 +72,7 @@ import {
   ThemeProvider,
   useTheme,
 } from '@aghanim1206/ui-react';
-import type { ThemeName } from '@aghanim1206/ui-react';
+import type { ThemeName, SwitchVariant } from '@aghanim1206/ui-react';
 ```
 
 ---
@@ -243,6 +244,43 @@ All components that accept icons use the `iconName` prop (typed as `IconName` �
   onChange={setPlan}
 />
 ```
+
+### Switch
+
+```tsx
+// Default — no border, no background (floating toggle)
+<Switch label="Enable notifications" description="Receive push notifications." />
+
+// Outline — bordered card
+<Switch variant="outline" label="Dark mode" description="Switch to a dark theme." />
+
+// Primary — primary-tinted card (great for active/featured settings)
+<Switch variant="primary" label="Airplane mode" defaultChecked />
+
+// Error state
+<Switch variant="outline" label="Accept terms" error="You must accept the terms to continue." />
+
+// Disabled
+<Switch variant="outline" label="Locked setting" description="Managed by your organization." disabled />
+
+// Bare (no label / no description — inline toggle only)
+<Switch />
+<Switch defaultChecked />
+```
+
+| Prop | Type | Default |
+|---|---|---|
+| `variant` | `"default"` \| `"outline"` \| `"primary"` | `"default"` |
+| `label` | `string` | — |
+| `description` | `string` | — |
+| `error` | `string` | — |
+| `disabled` | `boolean` | `false` |
+| `checked` | `boolean` | — |
+| `defaultChecked` | `boolean` | — |
+| `containerClassName` | `string` | — |
+| `labelClassName` | `string` | — |
+
+> Extends all native `<input type="checkbox">` HTML attributes. When neither `label` nor `description` is provided, renders as a bare inline toggle.
 
 ---
 

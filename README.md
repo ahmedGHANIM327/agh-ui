@@ -447,6 +447,47 @@ import { RadioGroup } from "@aghanim1206/ui-react";
 
 ---
 
+### Switch
+
+```tsx
+import { Switch } from "@aghanim1206/ui-react";
+
+// Default (no border, no background — bare card)
+<Switch label="Enable notifications" description="Receive push notifications." />
+
+// Outline — bordered card
+<Switch variant="outline" label="Dark mode" description="Switch to a dark theme." />
+
+// Primary — primary-tinted card
+<Switch variant="primary" label="Airplane mode" defaultChecked />
+
+// Error state
+<Switch variant="outline" label="Accept terms" error="You must accept the terms." />
+
+// Disabled
+<Switch variant="outline" label="Locked setting" disabled />
+
+// Bare (no label / description)
+<Switch />
+<Switch defaultChecked />
+```
+
+| Prop | Type | Default |
+|---|---|---|
+| `variant` | `"default"` \| `"outline"` \| `"primary"` | `"default"` |
+| `label` | `string` | — |
+| `description` | `string` | — |
+| `error` | `string` | — |
+| `disabled` | `boolean` | `false` |
+| `checked` | `boolean` | — |
+| `defaultChecked` | `boolean` | — |
+| `containerClassName` | `string` | — |
+| `labelClassName` | `string` | — |
+
+> Extends all native `<input type="checkbox">` HTML attributes. When neither `label` nor `description` is provided, renders as a bare inline toggle.
+
+---
+
 ### Badge
 
 ```tsx
