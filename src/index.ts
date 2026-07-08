@@ -27,6 +27,8 @@ export { default as Accordion, AccordionItem, AccordionTrigger, AccordionContent
 export type { AccordionProps, AccordionItemProps, AccordionTriggerProps, AccordionContentProps, AccordionVariant, AccordionType } from "./components/accordion/Accordion";
 export { default as Stepper, Step } from "./components/stepper/Stepper";
 export type { StepperProps, StepProps, StepperDirection } from "./components/stepper/Stepper";
+export { default as Table } from "./components/table/Table";
+export type { TableProps, ColumnDef, SortingState } from "./components/table/Table";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";

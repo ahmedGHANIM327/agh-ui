@@ -1,0 +1,253 @@
+.table__wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background-color: var(--background);
+    /* clips shadow overlays and provides rounded corners without clipping scrollbars */
+    overflow: hidden;
+}
+
+.table__container {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    background-color: var(--background);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--foreground);
+}
+
+/* ── THEAD ───────────────────────────────────────────────── */
+
+.table__thead {
+    background-color: var(--muted);
+}
+
+.table__th {
+    padding: var(--spacing-3) var(--spacing-4);
+    text-align: left;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    color: var(--muted-foreground);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--muted);
+}
+
+.table__th--sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.table__th--sortable:hover {
+    background-color: color-mix(in srgb, var(--muted) 60%, var(--border) 40%);
+}
+
+.table__th-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+}
+
+.table__sort-icon {
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+    opacity: 0.5;
+}
+
+.table__sort-icon--active {
+    opacity: 1;
+    color: var(--primary);
+}
+
+/* ── STICKY RIGHT ────────────────────────────────────────── */
+
+.table__th--sticky {
+    position: sticky;
+    right: 0;
+    z-index: 4;
+    background-color: var(--muted);
+    border-left: 1px solid var(--border);
+}
+
+.table__td--sticky {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background-color: var(--background);
+    border-left: 1px solid var(--border);
+}
+
+.table__tr--selected .table__td--sticky {
+    background-color: color-mix(in srgb, var(--primary) 6%, var(--background));
+}
+
+/* ── SELECTION COLUMN – STICKY LEFT ─────────────────────── */
+
+.table__th--selection {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    width: 3rem;
+    min-width: 3rem;
+    padding: var(--spacing-2) var(--spacing-3);
+    text-align: center;
+    background-color: var(--muted);
+    border-right: 1px solid var(--border);
+}
+
+.table__td--selection {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    padding: var(--spacing-2) var(--spacing-3);
+    text-align: center;
+    background-color: var(--background);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.table__tr--selected .table__td--selection {
+    background-color: color-mix(in srgb, var(--primary) 6%, var(--background));
+}
+
+/* ── TBODY ───────────────────────────────────────────────── */
+
+.table__td {
+    padding: var(--spacing-3) var(--spacing-4);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    background-color: var(--background);
+    transition: background-color 0.12s ease;
+}
+
+.table__tr:last-child .table__td,
+.table__tr:last-child .table__td--selection {
+    border-bottom: none;
+}
+
+.table__tr:hover .table__td {
+    background-color: color-mix(in srgb, var(--muted) 60%, var(--background) 40%);
+}
+
+.table__tr:hover .table__td--sticky {
+    background-color: color-mix(in srgb, var(--muted) 60%, var(--background) 40%);
+}
+
+.table__tr:hover .table__td--selection {
+    background-color: color-mix(in srgb, var(--muted) 60%, var(--background) 40%);
+}
+
+/* ── SELECTED ROW ────────────────────────────────────────── */
+
+.table__tr--selected .table__td {
+    background-color: color-mix(in srgb, var(--primary) 6%, var(--background));
+}
+
+.table__tr--selected:hover .table__td {
+    background-color: color-mix(in srgb, var(--primary) 10%, var(--background));
+}
+
+.table__tr--selected:hover .table__td--sticky,
+.table__tr--selected:hover .table__td--selection {
+    background-color: color-mix(in srgb, var(--primary) 10%, var(--background));
+}
+
+/* ── LOADING ─────────────────────────────────────────────── */
+
+.table__loading-cell {
+    text-align: center;
+    padding: var(--spacing-12) var(--spacing-4);
+    color: var(--muted-foreground);
+}
+
+/* ── SCROLL SHADOW OVERLAYS ──────────────────────────────── */
+/*
+ * These divs live inside .table__wrapper (position:relative, overflow:hidden)
+ * but OUTSIDE .table__container (overflow:auto), so they are never clipped
+ * by the scroll viewport. z-index 2 puts them above normal cells (auto)
+ * but below sticky cells (z-index 3/4) whose solid background covers them.
+ */
+
+.table__shadow-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 48px;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--foreground) 12%, transparent),
+        transparent
+    );
+}
+
+.table__shadow-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 48px;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+        to left,
+        color-mix(in srgb, var(--foreground) 12%, transparent),
+        transparent
+    );
+}
+
+.table__empty {
+    text-align: center;
+    padding: var(--spacing-12) var(--spacing-4);
+    color: var(--muted-foreground);
+    font-size: var(--text-sm);
+}
+
+/* ── DESELECT BUTTON ─────────────────────────────────────── */
+
+.table__deselect-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-1);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    color: var(--muted-foreground);
+    transition: color 0.12s ease, background-color 0.12s ease;
+}
+
+.table__deselect-btn:hover {
+    color: var(--foreground);
+    background-color: color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+/* ── INLINE RADIO ────────────────────────────────────────── */
+
+.table__radio {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+/* ── INLINE CHECKBOX ─────────────────────────────────────── */
+
+.table__checkbox {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--primary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+}
