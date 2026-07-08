@@ -1,16 +1,13 @@
-.tooltip {
-    position: relative;
+/* ── Trigger ─────────────────────────────────────────────────────────────── */
+.tooltip__trigger {
     display: inline-flex;
     width: fit-content;
 }
 
-.tooltip__trigger {
-    display: inline-flex;
-}
-
+/* ── Content (rendu dans le portal, position: fixed) ────────────────────── */
 .tooltip__content {
-    position: absolute;
-    z-index: 50;
+    position: fixed;
+    z-index: 9999;
 
     width: max-content;
     max-width: 260px;
@@ -31,94 +28,67 @@
     visibility: hidden;
     pointer-events: none;
 
-    transform: scale(0.95);
     transition:
-            opacity 150ms ease,
-            visibility 150ms ease,
-            transform 150ms ease;
+        opacity 150ms ease,
+        visibility 150ms ease,
+        transform 150ms ease;
 }
 
+/* Arrow */
 .tooltip__content::after {
     content: "";
-
     position: absolute;
-
     width: 0;
     height: 0;
-
     border-style: solid;
 }
 
-.tooltip:hover .tooltip__content {
+/* ── Visible state ───────────────────────────────────────────────────────── */
+.tooltip__content--visible {
     opacity: 1;
     visibility: visible;
-    transform: scale(1);
 }
 
+/* ── Top ─────────────────────────────────────────────────────────────────── */
 .tooltip__content--top {
-    bottom: calc(100% + 0.5rem);
-    left: 50%;
-    transform: translateX(-50%) scale(0.95);
+    transform: translateX(-50%) translateY(-100%) scale(0.95);
+}
+
+.tooltip__content--top.tooltip__content--visible {
+    transform: translateX(-50%) translateY(-100%) scale(1);
 }
 
 .tooltip__content--top::after {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-
     border-width: 6px 6px 0 6px;
     border-color: var(--foreground) transparent transparent transparent;
 }
 
-.tooltip:hover .tooltip__content--top {
-    transform: translateX(-50%) scale(1);
+/* ── Bottom ──────────────────────────────────────────────────────────────── */
+.tooltip__content--bottom {
+    transform: translateX(-50%) scale(0.95);
 }
 
-.tooltip__content--bottom {
-    top: calc(100% + 0.5rem);
-    left: 50%;
-    transform: translateX(-50%) scale(0.95);
+.tooltip__content--bottom.tooltip__content--visible {
+    transform: translateX(-50%) scale(1);
 }
 
 .tooltip__content--bottom::after {
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
-
     border-width: 0 6px 6px 6px;
     border-color: transparent transparent var(--foreground) transparent;
 }
 
-.tooltip:hover .tooltip__content--bottom {
-    transform: translateX(-50%) scale(1);
-}
-
+/* ── Right ───────────────────────────────────────────────────────────────── */
 .tooltip__content--right {
-    left: calc(100% + 0.5rem);
-    top: 50%;
     transform: translateY(-50%) scale(0.95);
 }
 
-.tooltip:hover .tooltip__content--right {
-    transform: translateY(-50%) scale(1);
-}
-
-.tooltip__content--left {
-    right: calc(100% + 0.5rem);
-    top: 50%;
-    transform: translateY(-50%) scale(0.95);
-}
-
-.tooltip__content--left::after {
-    top: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-
-    border-width: 6px 0 6px 6px;
-    border-color: transparent transparent transparent var(--foreground);
-}
-
-.tooltip:hover .tooltip__content--left {
+.tooltip__content--right.tooltip__content--visible {
     transform: translateY(-50%) scale(1);
 }
 
@@ -126,7 +96,23 @@
     top: 50%;
     right: 100%;
     transform: translateY(-50%);
-
     border-width: 6px 6px 6px 0;
     border-color: transparent var(--foreground) transparent transparent;
+}
+
+/* ── Left ────────────────────────────────────────────────────────────────── */
+.tooltip__content--left {
+    transform: translateX(-100%) translateY(-50%) scale(0.95);
+}
+
+.tooltip__content--left.tooltip__content--visible {
+    transform: translateX(-100%) translateY(-50%) scale(1);
+}
+
+.tooltip__content--left::after {
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    border-width: 6px 0 6px 6px;
+    border-color: transparent transparent transparent var(--foreground);
 }
