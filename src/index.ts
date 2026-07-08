@@ -29,6 +29,8 @@ export { default as Stepper, Step } from "./components/stepper/Stepper";
 export type { StepperProps, StepProps, StepperDirection } from "./components/stepper/Stepper";
 export { default as Table } from "./components/table/Table";
 export type { TableProps, ColumnDef, SortingState } from "./components/table/Table";
+export { default as Pagination } from "./components/pagination/Pagination";
+export type { PaginationProps } from "./components/pagination/Pagination";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";

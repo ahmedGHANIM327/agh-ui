@@ -19,6 +19,11 @@ import UserIcon from "./elements/UserIcon.tsx";
 import HomeIcon from "./elements/HomeIcon.tsx";
 import MenuIcon from "./elements/MenuIcon";
 import ChevronsUpDownIcon from "./elements/ChevronsUpDownIcon";
+import ChevronsLeftIcon from "./elements/ChevronsLeftIcon";
+import ChevronsRightIcon from "./elements/ChevronsRightIcon";
+import SunIcon from "./elements/SunIcon";
+import MoonIcon from "./elements/MoonIcon";
+import CopyIcon from "./elements/CopyIcon";
 
 export const IconRegistry = {
     plus: PlusIcon,
@@ -47,6 +52,11 @@ export const IconRegistry = {
     home: HomeIcon,
     menu: MenuIcon,
     chevronsUpDown: ChevronsUpDownIcon,
+    chevronsLeft: ChevronsLeftIcon,
+    chevronsRight: ChevronsRightIcon,
+    sun: SunIcon,
+    moon: MoonIcon,
+    copy: CopyIcon,
 } as const;
 
 export type IconName = keyof typeof IconRegistry;

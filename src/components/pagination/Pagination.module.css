@@ -1,0 +1,81 @@
+/* ── Container ──────────────────────────────────────────────────────────── */
+.pagination {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+}
+
+/* ── Shared button base ─────────────────────────────────────────────────── */
+.pagination__page,
+.pagination__nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 var(--spacing-2);
+
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--background);
+    color: var(--foreground);
+
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--text-sm--line-height);
+
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+
+    transition:
+        background-color 150ms ease,
+        color 150ms ease,
+        border-color 150ms ease,
+        opacity 150ms ease;
+}
+
+/* ── Hover ──────────────────────────────────────────────────────────────── */
+.pagination__page:hover:not(:disabled),
+.pagination__nav:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+/* ── Active page ────────────────────────────────────────────────────────── */
+.pagination__page--active {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border-color: var(--primary);
+}
+
+.pagination__page--active:hover:not(:disabled) {
+    opacity: 0.9;
+    background: var(--primary);
+}
+
+/* ── Disabled (prev / next) ─────────────────────────────────────────────── */
+.pagination__nav:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+/* ── Ellipsis ───────────────────────────────────────────────────────────── */
+.pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    font-size: var(--text-sm);
+    color: var(--muted-foreground);
+    user-select: none;
+}
+
+/* ── Pages wrapper ──────────────────────────────────────────────────────── */
+.pagination__pages {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+}
