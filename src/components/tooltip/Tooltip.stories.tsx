@@ -70,7 +70,7 @@ export const Positions: Story = {
         <Card
             style={{
                 width: "360px",
-                height: "220px",
+                height: "150px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

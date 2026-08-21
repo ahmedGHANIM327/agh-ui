@@ -1,4 +1,4 @@
-.card {
+:where(.card) {
     width: 100%;
 
     background: var(--background);
@@ -8,7 +8,7 @@
 
     border-radius: var(--radius-xl);
 
-    padding: var(--spacing-6);
+    padding: var(--spacing-4);
 
     box-shadow:
             0 1px 2px rgba(0, 0, 0, 0.03),
