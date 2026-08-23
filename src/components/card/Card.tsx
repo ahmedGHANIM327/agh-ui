@@ -11,8 +11,8 @@ const Card = ({
                   ...props
               }: CardProps) => {
     const classes = [
-        styles.card,
         className,
+        styles.card
     ]
         .filter(Boolean)
         .join(" ");
