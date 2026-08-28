@@ -94,6 +94,26 @@ import SettingsIcon from "./elements/SettingsIcon.tsx";
 import SunIcon from "./elements/SunIcon";
 import MoonIcon from "./elements/MoonIcon";
 
+// ============================================================
+// COMMUNICATION / CONTACT / WEB
+// ============================================================
+import PhoneIcon from "./elements/PhoneIcon.tsx";
+import PhoneFixedIcon from "./elements/PhoneFixedIcon.tsx";
+import WebsiteIcon from "./elements/WebsiteIcon.tsx";
+import GithubIcon from "./elements/GithubIcon.tsx";
+import GmailIcon from "./elements/GmailIcon.tsx";
+import GoogleIcon from "./elements/GoogleIcon.tsx";
+import FacebookIcon from "./elements/FacebookIcon.tsx";
+import InstagramIcon from "./elements/InstagramIcon.tsx";
+import WhatsappIcon from "./elements/WhatsappIcon.tsx";
+import TelegramIcon from "./elements/TelegramIcon.tsx";
+import RedditIcon from "./elements/RedditIcon.tsx";
+import GitlabIcon from "./elements/GitlabIcon.tsx";
+import YoutubeIcon from "./elements/YoutubeIcon.tsx";
+import TiktokIcon from "./elements/TiktokIcon.tsx";
+import DiscordIcon from "./elements/DiscordIcon.tsx";
+import SlackIcon from "./elements/SlackIcon.tsx";
+
 export const IconRegistry = {
 
     // ============================================================
@@ -203,6 +223,26 @@ export const IconRegistry = {
     moon: MoonIcon,
     monitor: MonitorIcon,
 
+    // ============================================================
+    // COMMUNICATION / CONTACT / WEB
+    // ============================================================
+
+    phone: PhoneIcon,
+    phoneFixed: PhoneFixedIcon,
+    website: WebsiteIcon,
+    github: GithubIcon,
+    gmail: GmailIcon,
+    google: GoogleIcon,
+    facebook: FacebookIcon,
+    instagram: InstagramIcon,
+    whatsapp: WhatsappIcon,
+    telegram: TelegramIcon,
+    reddit: RedditIcon,
+    gitlab: GitlabIcon,
+    youtube: YoutubeIcon,
+    tiktok: TiktokIcon,
+    discord: DiscordIcon,
+    slack: SlackIcon,
 } as const;
 
 export type IconName = keyof typeof IconRegistry;
