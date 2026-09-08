@@ -32,6 +32,8 @@ export type { TableProps, ColumnDef, SortingState } from "./components/table/Tab
 export { default as Pagination } from "./components/pagination/Pagination";
 export type { PaginationProps } from "./components/pagination/Pagination";
 export { default as SearchInput } from "./components/search-input/SearchInput";
+export { default as Combobox } from "./components/combobox/Combobox";
+export type { ComboboxProps } from "./components/combobox/Combobox";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";
