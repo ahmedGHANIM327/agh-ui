@@ -44,10 +44,28 @@ export interface ComboboxProps<T> {
      */
     searchKeys?: (keyof T & string)[];
 
-    value?: string;
-    defaultValue?: string;
+    /**
+     * Enable multi-select. When true:
+     *  - `value` / `defaultValue` are `string[]`
+     *  - `onValueChange` receives `(values, options)`
+     *  - the dropdown stays open on selection (each click toggles the option)
+     */
+    multiple?: boolean;
 
-    onValueChange?: (value: string, option: T) => void;
+    /**
+     * When `multiple` is true, maximum number of value badges shown in the
+     * trigger. Extra selections are collapsed into a `+N` overflow badge.
+     * Defaults to `2`.
+     */
+    maxVisibleBadges?: number;
+
+    value?: string | string[];
+    defaultValue?: string | string[];
+
+    onValueChange?: (
+        value: string | string[],
+        option: T | T[],
+    ) => void;
 
     placeholder?: string;
 
@@ -93,6 +111,8 @@ const Combobox = <T,>({
     renderOption,
     renderValue,
     searchKeys,
+    multiple = false,
+    maxVisibleBadges = 2,
     value,
     defaultValue,
     onValueChange,
@@ -112,10 +132,19 @@ const Combobox = <T,>({
     errorClassName = "",
 }: ComboboxProps<T>) => {
     const isControlled = value !== undefined;
-    const [internalValue, setInternalValue] = useState<string | undefined>(
-        defaultValue,
+
+    // Normalize to array internally.
+    const toArray = (v: string | string[] | undefined): string[] => {
+        if (v === undefined) return [];
+        return Array.isArray(v) ? v : [v];
+    };
+
+    const [internalValues, setInternalValues] = useState<string[]>(() =>
+        toArray(defaultValue),
     );
-    const currentValue = isControlled ? value : internalValue;
+    const currentValues: string[] = isControlled
+        ? toArray(value)
+        : internalValues;
 
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
@@ -138,13 +167,16 @@ const Combobox = <T,>({
 
     const [portal] = useState<HTMLElement>(() => getPortalEl());
 
-    // Currently selected option (if any) — looked up by value.
-    const selectedOption = useMemo(
-        () =>
-            currentValue !== undefined
-                ? options.find((o) => getOptionValue(o) === currentValue)
-                : undefined,
-        [options, currentValue, getOptionValue],
+    // Set of currently selected values for O(1) lookup.
+    const selectedSet = useMemo(
+        () => new Set(currentValues),
+        [currentValues],
+    );
+
+    // Currently selected options (may be empty).
+    const selectedOptions = useMemo(
+        () => options.filter((o) => selectedSet.has(getOptionValue(o))),
+        [options, selectedSet, getOptionValue],
     );
 
     // Filtered options based on the search query.
@@ -173,11 +205,7 @@ const Combobox = <T,>({
         });
     }, [options, query, searchable, searchKeys, getOptionValue]);
 
-    // Index (in `filtered`) of the currently selected option, or -1.
-    const selectedIndex = useMemo(() => {
-        if (currentValue === undefined) return -1;
-        return filtered.findIndex((o) => getOptionValue(o) === currentValue);
-    }, [filtered, currentValue, getOptionValue]);
+    // (selection lookups per-row are done inline via selectedSet)
 
     // Position dropdown under trigger
     const updateCoords = useCallback(() => {
@@ -209,13 +237,21 @@ const Combobox = <T,>({
             setOpen(next);
             if (next) {
                 // At open time, query is still empty → source == options.
-                const idx =
-                    currentValue !== undefined
-                        ? options.findIndex(
-                              (o) => getOptionValue(o) === currentValue,
+                // Initial active row: first selected option (if any),
+                // otherwise the first option.
+                const firstSelected =
+                    currentValues.length > 0
+                        ? options.findIndex((o) =>
+                              selectedSet.has(getOptionValue(o)),
                           )
                         : -1;
-                setActiveIndex(idx >= 0 ? idx : options.length ? 0 : -1);
+                setActiveIndex(
+                    firstSelected >= 0
+                        ? firstSelected
+                        : options.length
+                          ? 0
+                          : -1,
+                );
                 if (searchable) {
                     requestAnimationFrame(() =>
                         searchInputRef.current?.focus(),
@@ -226,7 +262,7 @@ const Combobox = <T,>({
                 setActiveIndex(-1);
             }
         },
-        [searchable, options, currentValue, getOptionValue],
+        [searchable, options, currentValues, selectedSet, getOptionValue],
     );
 
     // Click outside → close
@@ -266,7 +302,27 @@ const Combobox = <T,>({
 
     const commitOption = (opt: T) => {
         const v = getOptionValue(opt);
-        if (!isControlled) setInternalValue(v);
+
+        if (multiple) {
+            // Toggle in the current selection; keep dropdown open.
+            const isSelected = selectedSet.has(v);
+            const nextValues = isSelected
+                ? currentValues.filter((x) => x !== v)
+                : [...currentValues, v];
+            const nextOptions = options.filter((o) =>
+                nextValues.includes(getOptionValue(o)),
+            );
+            if (!isControlled) setInternalValues(nextValues);
+            onValueChange?.(nextValues, nextOptions);
+            // Refocus search input (if present) so keyboard flow keeps going.
+            if (searchable) {
+                requestAnimationFrame(() => searchInputRef.current?.focus());
+            }
+            return;
+        }
+
+        // Single-select: replace and close.
+        if (!isControlled) setInternalValues([v]);
         onValueChange?.(v, opt);
         setOpenState(false);
         requestAnimationFrame(() => triggerRef.current?.focus());
@@ -334,11 +390,45 @@ const Combobox = <T,>({
     };
 
     const renderTriggerValue = (): ReactNode => {
-        if (!selectedOption) return placeholder;
-        return (renderValue ?? renderOption)(selectedOption);
+        if (selectedOptions.length === 0) return placeholder;
+        const render = renderValue ?? renderOption;
+        if (!multiple) return render(selectedOptions[0]);
+
+        // Multi: show at most `maxVisibleBadges` badges + a "+N" overflow badge.
+        const max = Math.max(0, maxVisibleBadges);
+        const visible = selectedOptions.slice(0, max);
+        const overflow = selectedOptions.length - visible.length;
+
+        return (
+            <span className={s("combobox__value-list")}>
+                {visible.map((opt) => (
+                    <span
+                        key={getOptionValue(opt)}
+                        className={s("combobox__value-badge")}
+                    >
+                        {render(opt)}
+                    </span>
+                ))}
+                {overflow > 0 && (
+                    <span
+                        className={[
+                            s("combobox__value-badge"),
+                            s("combobox__value-badge--more"),
+                        ].join(" ")}
+                        aria-label={`${overflow} more selected`}
+                        title={selectedOptions
+                            .slice(max)
+                            .map((o) => getOptionValue(o))
+                            .join(", ")}
+                    >
+                        +{overflow}
+                    </span>
+                )}
+            </span>
+        );
     };
 
-    const hasSelection = selectedOption !== undefined;
+    const hasSelection = selectedOptions.length > 0;
 
     const descriptionId = description ? `${baseId}-description` : undefined;
     const errorId = error ? `${baseId}-error` : undefined;
@@ -496,6 +586,7 @@ const Combobox = <T,>({
                         ref={listRef}
                         id={listboxId}
                         role="listbox"
+                        aria-multiselectable={multiple || undefined}
                         tabIndex={-1}
                         className={s("combobox__list")}
                         onKeyDown={handleListKeyDown}
@@ -512,7 +603,7 @@ const Combobox = <T,>({
                         {open &&
                             filtered.map((opt, i) => {
                                 const optValue = getOptionValue(opt);
-                                const selected = i === selectedIndex;
+                                const selected = selectedSet.has(optValue);
                                 const active = i === safeActiveIndex;
                                 return (
                                     <li

@@ -283,3 +283,36 @@
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
 }
+
+/* ── Multi-select value list in trigger ─────────────────────────────────── */
+.combobox__value-list {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-1);
+}
+
+.combobox__value-badge {
+    display: inline-flex;
+    align-items: center;
+
+    max-width: 12rem;
+    padding: 2px var(--spacing-2);
+
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    color: var(--primary);
+    border-radius: var(--radius-md);
+
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    font-weight: var(--font-weight-medium);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.combobox__value-badge--more {
+    background: var(--muted);
+    color: var(--muted-foreground);
+}

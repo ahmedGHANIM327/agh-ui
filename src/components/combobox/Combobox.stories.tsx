@@ -167,7 +167,7 @@ export const UsersCombobox: StoryObj<typeof Combobox<User>> = {
                     options={users}
                     searchable
                     value={selected}
-                    onValueChange={(v) => setSelected(v)}
+                    onValueChange={(v) => setSelected(v as string)}
                     getOptionValue={(u) => u.id}
                     searchKeys={["firstName", "lastName"]}
                     renderOption={(u) => (
@@ -243,4 +243,88 @@ export const StringOptions: StoryObj<typeof Combobox<string>> = {
             renderOption={(f) => f}
         />
     ),
+};
+
+/**
+ * Multi-select: `multiple` is true, `value`/`defaultValue` are string arrays,
+ * and the dropdown stays open on each toggle. `onValueChange` receives the
+ * updated array of values and the array of matching options.
+ */
+export const MultiSelect: StoryObj<typeof Combobox<Country>> = {
+    render: () => {
+        const [values, setValues] = useState<string[]>(["fr", "es"]);
+        return (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <Combobox<Country>
+                    label="Countries"
+                    placeholder="Select countries"
+                    description="Pick as many as you want."
+                    options={countries}
+                    multiple
+                    searchable
+                    searchKeys={["name"]}
+                    value={values}
+                    onValueChange={(v) => setValues(v as string[])}
+                    getOptionValue={(c) => c.code}
+                    renderOption={(c) => c.name}
+                    renderValue={(c) => c.name}
+                />
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: 14 }}>
+                    Selected: <strong>{values.join(", ") || "—"}</strong>
+                </p>
+            </div>
+        );
+    },
+};
+
+/**
+ * Multi-select on plain string options with default values.
+ */
+export const MultiSelectStrings: StoryObj<typeof Combobox<string>> = {
+    render: () => (
+        <Combobox<string>
+            label="Fruits"
+            placeholder="Pick fruits"
+            description="Multiple selection with plain string options."
+            options={fruits}
+            multiple
+            searchable
+            defaultValue={["Apple", "Mango"]}
+            getOptionValue={(f) => f}
+            renderOption={(f) => f}
+        />
+    ),
+};
+
+/**
+ * Multi-select with `maxVisibleBadges` set to 4: up to 4 badges are shown
+ * in the trigger before collapsing extras into a `+N` overflow badge.
+ */
+export const MultiSelectCustomMaxBadges: StoryObj<typeof Combobox<Country>> = {
+    render: () => {
+        const [values, setValues] = useState<string[]>([
+            "fr",
+            "de",
+            "es",
+            "it",
+            "be",
+            "pt",
+        ]);
+        return (
+            <Combobox<Country>
+                label="Countries"
+                placeholder="Select countries"
+                options={countries}
+                multiple
+                maxVisibleBadges={4}
+                searchable
+                searchKeys={["name"]}
+                value={values}
+                onValueChange={(v) => setValues(v as string[])}
+                getOptionValue={(c) => c.code}
+                renderOption={(c) => c.name}
+                renderValue={(c) => c.name}
+            />
+        );
+    },
 };
