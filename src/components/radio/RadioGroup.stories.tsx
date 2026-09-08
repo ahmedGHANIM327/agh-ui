@@ -116,6 +116,17 @@ const meta: Meta<typeof RadioGroup> = {
             },
         },
 
+        orientation: {
+            control: "radio",
+            options: ["vertical", "horizontal"],
+            description: "Layout direction of the radio options. Options wrap when horizontal.",
+            table: {
+                category: "Layout",
+                type: { summary: '"vertical" | "horizontal"' },
+                defaultValue: { summary: '"vertical"' },
+            },
+        },
+
         className: {
             control: false,
             description: "Custom class applied to the radio group items wrapper.",
@@ -270,6 +281,24 @@ export const Error: Story = {
                         label: "PayPal",
                     },
                 ]}
+            />
+        );
+    },
+};
+
+export const Horizontal: Story = {
+    render: () => {
+        const [value, setValue] = useState<string>("");
+
+        return (
+            <RadioGroup
+                label="Notifications"
+                description="Options are laid out horizontally and wrap to the next line if needed."
+                name="notifications-horizontal"
+                orientation="horizontal"
+                value={value}
+                onChange={setValue}
+                options={options}
             />
         );
     },

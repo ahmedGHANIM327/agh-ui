@@ -1,8 +1,8 @@
-.radio__container {
+:where(.radio__container) {
     width: 100%;
 }
 
-.radio__wrapper {
+:where(.radio__wrapper) {
     display: inline-flex;
     align-items: flex-start;
     gap: var(--spacing-2);
@@ -11,12 +11,12 @@
     color: var(--foreground);
 }
 
-.radio__wrapper--disabled {
+:where(.radio__wrapper--disabled) {
     cursor: not-allowed;
     opacity: 0.5;
 }
 
-.radio__input {
+:where(.radio__input) {
     position: absolute;
     opacity: 0;
     width: 0;
@@ -25,7 +25,7 @@
     pointer-events: none;
 }
 
-.radio__circle {
+:where(.radio__circle) {
     position: relative;
 
     display: inline-flex;
@@ -49,11 +49,11 @@
             box-shadow 150ms ease;
 }
 
-.radio__circle--checked {
+:where(.radio__circle--checked) {
     border-color: var(--primary);
 }
 
-.radio__circle--checked::after {
+:where(.radio__circle--checked)::after {
     content: "";
     position: absolute;
 
@@ -64,45 +64,45 @@
     background: var(--primary);
 }
 
-.radio__input:focus-visible + .radio__circle {
+:where(.radio__input):focus-visible + :where(.radio__circle) {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
-.radio__wrapper--error .radio__circle {
+:where(.radio__wrapper--error) :where(.radio__circle) {
     border-color: var(--destructive);
 }
 
-.radio__wrapper--error .radio__input:focus-visible + .radio__circle {
+:where(.radio__wrapper--error) :where(.radio__input):focus-visible + :where(.radio__circle) {
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
 }
 
-.radio__content {
+:where(.radio__content) {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-1);
 }
 
-.radio__label {
+:where(.radio__label) {
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
     font-weight: var(--font-weight-medium);
     color: var(--foreground);
 }
 
-.radio__description {
+:where(.radio__description) {
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
     color: var(--muted-foreground);
 }
 
-.radio__description--error {
+:where(.radio__description--error) {
     color: var(--destructive);
 }
 
 /* Group */
 
-.radio-group {
+:where(.radio-group) {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-2);
@@ -114,30 +114,43 @@
     border: none;
 }
 
-.radio-group__label {
+:where(.radio-group__label) {
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
     font-weight: var(--font-weight-medium);
     color: var(--foreground);
 }
 
-.radio-group__label--error {
+:where(.radio-group__label--error) {
     color: var(--destructive);
 }
 
-.radio-group__description {
+:where(.radio-group__description) {
     margin: 0;
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
     color: var(--muted-foreground);
 }
 
-.radio-group__description--error {
+:where(.radio-group__description--error) {
     color: var(--destructive);
 }
 
-.radio-group__items {
+:where(.radio-group__items) {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-3);
+    flex-wrap: wrap;
+}
+
+:where(.radio-group__items--horizontal) {
+    flex-direction: row;
+}
+
+:where(.radio-group__items--horizontal) > :where(.radio__container) {
+    width: auto;
+}
+
+:where(.radio-group__items--vertical) {
+    flex-direction: column;
 }

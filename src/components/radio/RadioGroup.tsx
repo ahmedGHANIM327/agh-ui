@@ -19,6 +19,11 @@ export interface RadioGroupProps {
     onChange?: (value: string) => void;
     disabled?: boolean;
     name: string;
+    /**
+     * Layout direction of the radio options.
+     * Default: "vertical"
+     */
+    orientation?: "horizontal" | "vertical";
     className?: string;
     containerClassName?: string;
     labelClassName?: string;
@@ -35,6 +40,7 @@ const RadioGroup: FC<RadioGroupProps> = ({
                                              onChange,
                                              disabled,
                                              name,
+                                             orientation = "vertical",
                                              className = "",
                                              containerClassName = "",
                                              labelClassName = "",
@@ -61,7 +67,7 @@ const RadioGroup: FC<RadioGroupProps> = ({
                 </p>
             )}
 
-            <div className={[s('radio-group__items'), className].filter(Boolean).join(' ')}>
+            <div className={[s('radio-group__items'), s(`radio-group__items--${orientation}`), className].filter(Boolean).join(' ')}>
                 {options.map(({ value: optionValue, ...option }) => {
                     const radioId = `${name}-${optionValue}`;
 
