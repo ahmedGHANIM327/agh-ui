@@ -1,5 +1,6 @@
 import {
     type KeyboardEvent,
+    type ReactNode,
     useCallback,
     useEffect,
     useId,
@@ -13,13 +14,40 @@ import styles from "./Combobox.module.css";
 
 const s = (cls: string): string => styles[cls] ?? "";
 
-export interface ComboboxProps {
-    options: string[];
+export interface ComboboxProps<T> {
+    /** List of options of any shape. */
+    options: T[];
+
+    /** Extract the string value from an option (used for value / onValueChange). */
+    getOptionValue: (option: T) => string;
+
+    /**
+     * Render the option row inside the dropdown list.
+     * Can return any ReactNode (e.g. Badge, Avatar + text, ...).
+     */
+    renderOption: (option: T) => ReactNode;
+
+    /**
+     * Render the selected value inside the trigger.
+     * Defaults to `renderOption` if not provided.
+     */
+    renderValue?: (option: T) => ReactNode;
+
+    /**
+     * Keys of the option object where the search should look.
+     * Example: `["firstName", "lastName"]` will match on both fields.
+     *
+     * - If options are plain strings, this prop is ignored and the search
+     *   runs directly on each string.
+     * - If options are objects and `searchKeys` is omitted, the search
+     *   falls back to `getOptionValue`.
+     */
+    searchKeys?: (keyof T & string)[];
 
     value?: string;
     defaultValue?: string;
 
-    onValueChange?: (value: string) => void;
+    onValueChange?: (value: string, option: T) => void;
 
     placeholder?: string;
 
@@ -59,8 +87,12 @@ const getPortalEl = (): HTMLElement => {
     return _portal;
 };
 
-const Combobox = ({
+const Combobox = <T,>({
     options,
+    getOptionValue,
+    renderOption,
+    renderValue,
+    searchKeys,
     value,
     defaultValue,
     onValueChange,
@@ -78,7 +110,7 @@ const Combobox = ({
     labelClassName = "",
     descriptionClassName = "",
     errorClassName = "",
-}: ComboboxProps) => {
+}: ComboboxProps<T>) => {
     const isControlled = value !== undefined;
     const [internalValue, setInternalValue] = useState<string | undefined>(
         defaultValue,
@@ -106,12 +138,46 @@ const Combobox = ({
 
     const [portal] = useState<HTMLElement>(() => getPortalEl());
 
-    // Filtered options
+    // Currently selected option (if any) — looked up by value.
+    const selectedOption = useMemo(
+        () =>
+            currentValue !== undefined
+                ? options.find((o) => getOptionValue(o) === currentValue)
+                : undefined,
+        [options, currentValue, getOptionValue],
+    );
+
+    // Filtered options based on the search query.
     const filtered = useMemo(() => {
         if (!searchable || !query.trim()) return options;
         const q = query.toLowerCase();
-        return options.filter((o) => o.toLowerCase().includes(q));
-    }, [options, query, searchable]);
+
+        return options.filter((o) => {
+            // Case 1 — options are plain strings: search directly.
+            if (typeof o === "string") {
+                return o.toLowerCase().includes(q);
+            }
+            // Case 2 — options are objects with explicit searchKeys.
+            if (searchKeys && searchKeys.length > 0) {
+                return searchKeys.some((key) => {
+                    const v = (o as Record<string, unknown>)[key as string];
+                    return typeof v === "string"
+                        ? v.toLowerCase().includes(q)
+                        : typeof v === "number"
+                          ? String(v).toLowerCase().includes(q)
+                          : false;
+                });
+            }
+            // Case 3 — fallback: search on the option's value.
+            return getOptionValue(o).toLowerCase().includes(q);
+        });
+    }, [options, query, searchable, searchKeys, getOptionValue]);
+
+    // Index (in `filtered`) of the currently selected option, or -1.
+    const selectedIndex = useMemo(() => {
+        if (currentValue === undefined) return -1;
+        return filtered.findIndex((o) => getOptionValue(o) === currentValue);
+    }, [filtered, currentValue, getOptionValue]);
 
     // Position dropdown under trigger
     const updateCoords = useCallback(() => {
@@ -138,20 +204,18 @@ const Combobox = ({
     }, [open, updateCoords]);
 
     // Centralized open/close handler.
-    // We do the reset / active-index init synchronously here (in the event
-    // that triggers the state change) instead of in a useEffect on `open`,
-    // to avoid `react-hooks/set-state-in-effect` (cascading renders).
     const setOpenState = useCallback(
         (next: boolean) => {
             setOpen(next);
             if (next) {
-                const source = searchable && !query.trim() ? options : filtered;
-                const selectedIdx = currentValue
-                    ? source.indexOf(currentValue)
-                    : -1;
-                setActiveIndex(
-                    selectedIdx >= 0 ? selectedIdx : source.length ? 0 : -1,
-                );
+                // At open time, query is still empty → source == options.
+                const idx =
+                    currentValue !== undefined
+                        ? options.findIndex(
+                              (o) => getOptionValue(o) === currentValue,
+                          )
+                        : -1;
+                setActiveIndex(idx >= 0 ? idx : options.length ? 0 : -1);
                 if (searchable) {
                     requestAnimationFrame(() =>
                         searchInputRef.current?.focus(),
@@ -162,7 +226,7 @@ const Combobox = ({
                 setActiveIndex(-1);
             }
         },
-        [searchable, query, options, filtered, currentValue],
+        [searchable, options, currentValue, getOptionValue],
     );
 
     // Click outside → close
@@ -182,8 +246,7 @@ const Combobox = ({
         return () => document.removeEventListener("mousedown", onDocMouseDown);
     }, [open, setOpenState]);
 
-    // Keep activeIndex in bounds when filtered changes (e.g. while typing in
-    // the search input). Done at render time to avoid `set-state-in-effect`.
+    // Keep activeIndex in bounds when filtered changes (e.g. while typing).
     const safeActiveIndex =
         activeIndex >= filtered.length
             ? filtered.length
@@ -201,9 +264,10 @@ const Combobox = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [safeActiveIndex, open]);
 
-    const commitValue = (v: string) => {
+    const commitOption = (opt: T) => {
+        const v = getOptionValue(opt);
         if (!isControlled) setInternalValue(v);
-        onValueChange?.(v);
+        onValueChange?.(v, opt);
         setOpenState(false);
         requestAnimationFrame(() => triggerRef.current?.focus());
     };
@@ -258,7 +322,7 @@ const Combobox = ({
             case "Enter":
                 e.preventDefault();
                 if (safeActiveIndex >= 0 && safeActiveIndex < filtered.length) {
-                    commitValue(filtered[safeActiveIndex]);
+                    commitOption(filtered[safeActiveIndex]);
                 }
                 break;
             case "Escape":
@@ -269,7 +333,12 @@ const Combobox = ({
         }
     };
 
-    const displayLabel = currentValue ?? "";
+    const renderTriggerValue = (): ReactNode => {
+        if (!selectedOption) return placeholder;
+        return (renderValue ?? renderOption)(selectedOption);
+    };
+
+    const hasSelection = selectedOption !== undefined;
 
     const descriptionId = description ? `${baseId}-description` : undefined;
     const errorId = error ? `${baseId}-error` : undefined;
@@ -304,7 +373,11 @@ const Combobox = ({
                 </label>
             )}
 
-            <div className={[s("combobox"), className].filter(Boolean).join(" ")}>
+            <div
+                className={[s("combobox"), className]
+                    .filter(Boolean)
+                    .join(" ")}
+            >
                 <button
                     ref={triggerRef}
                     type="button"
@@ -332,18 +405,22 @@ const Combobox = ({
                     ]
                         .filter(Boolean)
                         .join(" ")}
-                    onClick={() => (open ? setOpenState(false) : openDropdown())}
+                    onClick={() =>
+                        open ? setOpenState(false) : openDropdown()
+                    }
                     onKeyDown={handleTriggerKeyDown}
                 >
                     <span
                         className={[
                             s("combobox__value"),
-                            !displayLabel ? s("combobox__value--placeholder") : "",
+                            !hasSelection
+                                ? s("combobox__value--placeholder")
+                                : "",
                         ]
                             .filter(Boolean)
                             .join(" ")}
                     >
-                        {displayLabel || placeholder}
+                        {renderTriggerValue()}
                     </span>
                     <span
                         aria-hidden="true"
@@ -375,8 +452,8 @@ const Combobox = ({
                     }}
                     role="presentation"
                     onMouseDown={(e) => {
-                        // Prevent trigger button from losing focus / dropdown from closing
-                        // when interacting with anything inside the portal.
+                        // Prevent trigger from losing focus / dropdown from
+                        // closing when interacting inside the portal.
                         e.stopPropagation();
                     }}
                 >
@@ -434,11 +511,12 @@ const Combobox = ({
 
                         {open &&
                             filtered.map((opt, i) => {
-                                const selected = opt === currentValue;
+                                const optValue = getOptionValue(opt);
+                                const selected = i === selectedIndex;
                                 const active = i === safeActiveIndex;
                                 return (
                                     <li
-                                        key={opt}
+                                        key={optValue}
                                         id={optionId(i)}
                                         role="option"
                                         aria-selected={selected}
@@ -448,7 +526,9 @@ const Combobox = ({
                                                 ? s("combobox__option--active")
                                                 : "",
                                             selected
-                                                ? s("combobox__option--selected")
+                                                ? s(
+                                                      "combobox__option--selected",
+                                                  )
                                                 : "",
                                         ]
                                             .filter(Boolean)
@@ -458,14 +538,14 @@ const Combobox = ({
                                             // Prevent blur of search input before click
                                             e.preventDefault();
                                         }}
-                                        onClick={() => commitValue(opt)}
+                                        onClick={() => commitOption(opt)}
                                     >
                                         <span
                                             className={s(
                                                 "combobox__option-label",
                                             )}
                                         >
-                                            {opt}
+                                            {renderOption(opt)}
                                         </span>
                                         {selected && (
                                             <span
@@ -503,7 +583,10 @@ const Combobox = ({
             {description && !error && (
                 <p
                     id={descriptionId}
-                    className={[s("combobox__description"), descriptionClassName]
+                    className={[
+                        s("combobox__description"),
+                        descriptionClassName,
+                    ]
                         .filter(Boolean)
                         .join(" ")}
                 >

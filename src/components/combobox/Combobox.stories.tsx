@@ -1,106 +1,64 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState, type ComponentProps } from "react";
+import { useState } from "react";
 import Combobox from "./Combobox";
+import Badge from "../badge/Badge";
 
-const countries = [
-    "France",
-    "Germany",
-    "Spain",
-    "Italy",
-    "Belgium",
-    "Portugal",
-    "Netherlands",
-    "Switzerland",
-    "Austria",
-    "Sweden",
-    "Norway",
-    "Finland",
-    "Denmark",
-    "Ireland",
-    "Poland",
+// ── Data ─────────────────────────────────────────────────────────────────
+interface Country {
+    code: string;
+    name: string;
+    continent: "Europe" | "Africa" | "Asia" | "America" | "Oceania";
+}
+
+const countries: Country[] = [
+    { code: "fr", name: "France", continent: "Europe" },
+    { code: "de", name: "Germany", continent: "Europe" },
+    { code: "es", name: "Spain", continent: "Europe" },
+    { code: "it", name: "Italy", continent: "Europe" },
+    { code: "be", name: "Belgium", continent: "Europe" },
+    { code: "pt", name: "Portugal", continent: "Europe" },
+    { code: "ma", name: "Morocco", continent: "Africa" },
+    { code: "sn", name: "Senegal", continent: "Africa" },
+    { code: "jp", name: "Japan", continent: "Asia" },
+    { code: "kr", name: "South Korea", continent: "Asia" },
+    { code: "us", name: "United States", continent: "America" },
+    { code: "br", name: "Brazil", continent: "America" },
+    { code: "au", name: "Australia", continent: "Oceania" },
 ];
 
-const meta: Meta<typeof Combobox> = {
+interface User {
+    id: string;
+    firstName: string;
+    lastName: string;
+    role: "admin" | "editor" | "viewer";
+}
+
+const users: User[] = [
+    { id: "u1", firstName: "Ada", lastName: "Lovelace", role: "admin" },
+    { id: "u2", firstName: "Alan", lastName: "Turing", role: "admin" },
+    { id: "u3", firstName: "Grace", lastName: "Hopper", role: "editor" },
+    { id: "u4", firstName: "Linus", lastName: "Torvalds", role: "editor" },
+    { id: "u5", firstName: "Margaret", lastName: "Hamilton", role: "viewer" },
+    { id: "u6", firstName: "Dennis", lastName: "Ritchie", role: "viewer" },
+];
+
+// ── Meta ─────────────────────────────────────────────────────────────────
+const meta: Meta<typeof Combobox<Country>> = {
     title: "Combobox",
-    component: Combobox,
+    component: Combobox<Country>,
     tags: ["autodocs"],
     parameters: {
         layout: "centered",
         docs: {
             description: {
                 component:
-                    "Combobox lets users select a single value from a list of options. V0: single-select, `string` options, optional search, full keyboard navigation, and a dedicated portal for the dropdown.",
+                    "Generic Combobox that lets users select a single value from a list of arbitrary objects. The consumer provides `getOptionValue`, `renderOption`, and optionally `renderValue` and `searchKeys` (the fields on which the search runs). Features: keyboard navigation, optional search, and a dedicated portal for the dropdown.",
             },
-        },
-    },
-    args: {
-        options: countries,
-        label: "Country",
-        placeholder: "Select a country",
-        description: "Choose your country of residence.",
-        searchable: false,
-        disabled: false,
-        required: false,
-    },
-    argTypes: {
-        options: {
-            control: "object",
-            description: "List of available options.",
-            table: { category: "Content", type: { summary: "string[]" } },
-        },
-        value: {
-            control: "text",
-            description: "Controlled selected value.",
-            table: { category: "State", type: { summary: "string" } },
-        },
-        defaultValue: {
-            control: "text",
-            description: "Uncontrolled initial selected value.",
-            table: { category: "State", type: { summary: "string" } },
-        },
-        placeholder: {
-            control: "text",
-            description: "Placeholder shown when no value is selected.",
-            table: { category: "Content", type: { summary: "string" } },
-        },
-        label: {
-            control: "text",
-            description: "Label displayed above the combobox.",
-            table: { category: "Content", type: { summary: "string" } },
-        },
-        description: {
-            control: "text",
-            description: "Helper text displayed below the combobox.",
-            table: { category: "Content", type: { summary: "string" } },
-        },
-        error: {
-            control: "text",
-            description: "Error message displayed below the combobox.",
-            table: { category: "Validation", type: { summary: "string" } },
-        },
-        searchable: {
-            control: "boolean",
-            description: "Enables a search input inside the dropdown.",
-            table: { category: "Behavior", type: { summary: "boolean" } },
-        },
-        disabled: {
-            control: "boolean",
-            description: "Disables the component.",
-            table: { category: "State", type: { summary: "boolean" } },
-        },
-        required: {
-            control: "boolean",
-            description: "Marks the field as required.",
-            table: { category: "Validation", type: { summary: "boolean" } },
-        },
-        onValueChange: {
-            action: "valueChanged",
-            table: { category: "Events" },
         },
     },
     decorators: [
         (Story) => (
-            <div style={{ width: 320 }}>
+            <div style={{ width: 340 }}>
                 <Story />
             </div>
         ),
@@ -108,60 +66,181 @@ const meta: Meta<typeof Combobox> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Combobox>;
+type Story = StoryObj<typeof Combobox<Country>>;
 
-export const Default: Story = {};
+// ── Stories ──────────────────────────────────────────────────────────────
+export const Default: Story = {
+    args: {
+        options: countries,
+        label: "Country",
+        placeholder: "Select a country",
+        description: "Choose your country of residence.",
+        getOptionValue: (c) => c.code,
+        renderOption: (c) => c.name,
+    },
+};
 
 export const Searchable: Story = {
     args: {
+        ...Default.args,
         searchable: true,
+        searchKeys: ["name"],
         placeholder: "Search a country",
     },
 };
 
 export const WithDefaultValue: Story = {
     args: {
-        defaultValue: "France",
+        ...Default.args,
+        defaultValue: "fr",
     },
 };
 
 export const Disabled: Story = {
     args: {
+        ...Default.args,
         disabled: true,
-        defaultValue: "France",
+        defaultValue: "fr",
     },
 };
 
 export const Required: Story = {
     args: {
+        ...Default.args,
         required: true,
     },
 };
 
 export const WithError: Story = {
     args: {
+        ...Default.args,
         error: "Please select a country.",
         required: true,
     },
 };
 
-export const Controlled: Story = {
-    render: (args: ComponentProps<typeof Combobox>) => {
-        const [value, setValue] = useState<string | undefined>("Spain");
+/**
+ * Rich rendering: each option shows the country name plus a Badge for the
+ * continent. `renderValue` returns a lighter representation for the trigger.
+ */
+export const RichRendering: Story = {
+    args: {
+        options: countries,
+        label: "Country",
+        placeholder: "Select a country",
+        searchable: true,
+        getOptionValue: (c) => c.code,
+        searchKeys: ["name"],
+        renderOption: (c) => (
+            <span
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 8,
+                    width: "100%",
+                }}
+            >
+                <span>{c.name}</span>
+                <Badge variant="outline" label={c.continent} />
+            </span>
+        ),
+        renderValue: (c) => `${c.name} (${c.code.toUpperCase()})`,
+    },
+};
+
+/**
+ * Combobox typed with a completely different object type (User).
+ * Illustrates: `firstName + lastName` label, search on both fields,
+ * value = `id`, and a Badge for the role.
+ */
+export const UsersCombobox: StoryObj<typeof Combobox<User>> = {
+    render: () => {
+        const [selected, setSelected] = useState<string | undefined>();
+
         return (
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <Combobox
-                    {...args}
-                    value={value}
-                    onValueChange={setValue}
+                <Combobox<User>
+                    label="Assignee"
+                    placeholder="Select a user"
+                    description="Search by first or last name."
+                    options={users}
+                    searchable
+                    value={selected}
+                    onValueChange={(v) => setSelected(v)}
+                    getOptionValue={(u) => u.id}
+                    searchKeys={["firstName", "lastName"]}
+                    renderOption={(u) => (
+                        <span
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: 8,
+                                width: "100%",
+                            }}
+                        >
+                            <span>
+                                {u.firstName} {u.lastName}
+                            </span>
+                            <Badge
+                                variant={
+                                    u.role === "admin"
+                                        ? "destructive"
+                                        : u.role === "editor"
+                                          ? "primary"
+                                          : "outline"
+                                }
+                                label={u.role}
+                            />
+                        </span>
+                    )}
+                    renderValue={(u) => `${u.firstName} ${u.lastName}`}
                 />
                 <p style={{ fontFamily: "var(--font-sans)", fontSize: 14 }}>
-                    Selected: <strong>{value ?? "—"}</strong>
+                    Selected id: <strong>{selected ?? "—"}</strong>
                 </p>
             </div>
         );
     },
-    args: {
-        searchable: true,
-    },
+};
+
+/**
+ * Options as plain strings: `searchKeys` is ignored and the search runs
+ * directly on each string. Minimal setup — just `getOptionValue` and
+ * `renderOption` that return the string as-is.
+ */
+const fruits = [
+    "Apple",
+    "Apricot",
+    "Banana",
+    "Blackberry",
+    "Blueberry",
+    "Cherry",
+    "Coconut",
+    "Grape",
+    "Kiwi",
+    "Lemon",
+    "Mango",
+    "Orange",
+    "Peach",
+    "Pear",
+    "Pineapple",
+    "Raspberry",
+    "Strawberry",
+    "Watermelon",
+];
+
+export const StringOptions: StoryObj<typeof Combobox<string>> = {
+    render: () => (
+        <Combobox<string>
+            label="Fruit"
+            placeholder="Pick a fruit"
+            description="Type to filter the list."
+            options={fruits}
+            searchable
+            getOptionValue={(f) => f}
+            renderOption={(f) => f}
+        />
+    ),
 };
