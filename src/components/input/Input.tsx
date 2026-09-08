@@ -49,7 +49,7 @@ const Input: FC<InputProps> = ({
     ) : null;
 
     return (
-        <div className={[s('input__container'), containerClassName].filter(Boolean).join(' ')}>
+        <div className={[containerClassName, s('input__container')].filter(Boolean).join(' ')}>
             {label && (
                 <label className={[s('input__label'), error ? s('input__label--error') : '', labelClassName].filter(Boolean).join(' ')}>
                     {label}
