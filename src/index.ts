@@ -34,6 +34,8 @@ export type { PaginationProps } from "./components/pagination/Pagination";
 export { default as SearchInput } from "./components/search-input/SearchInput";
 export { default as Combobox } from "./components/combobox/Combobox";
 export type { ComboboxProps } from "./components/combobox/Combobox";
+export { default as RichText } from "./components/rich-text/RichText";
+export type { RichTextProps } from "./components/rich-text/RichText";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";

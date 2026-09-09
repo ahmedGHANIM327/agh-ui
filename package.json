@@ -1,6 +1,6 @@
 {
   "name": "@aghanim1206/ui-react",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -15,13 +15,17 @@
     "./style.css": "./dist/style.css",
     "./tailwind": "./tailwind.preset.cjs"
   },
-  "files": ["dist", "tailwind.preset.cjs"],
-  "sideEffects": ["**/*.css"],
+  "files": [
+    "dist",
+    "tailwind.preset.cjs"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "peerDependencies": {
     "react": "^19",
     "react-dom": "^19"
   },
-
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -30,37 +34,41 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-
-"dependencies": {},
-
-"devDependencies": {
-"@babel/core": "^7.29.0",
-"@chromatic-com/storybook": "^5.1.2",
-"@eslint/js": "^10.0.1",
-"@rolldown/plugin-babel": "^0.2.3",
-"@storybook/addon-a11y": "^10.3.6",
-"@storybook/addon-docs": "^10.3.6",
-"@storybook/addon-vitest": "^10.3.6",
-"@storybook/react-vite": "^10.3.6",
-"@types/babel__core": "^7.20.5",
-"@types/node": "^24.12.2",
-"@types/react": "^19.2.14",
-"@types/react-dom": "^19.2.3",
-"@vitejs/plugin-react": "^6.0.1",
-"@vitest/browser-playwright": "^4.1.5",
-"@vitest/coverage-v8": "^4.1.5",
-"babel-plugin-react-compiler": "^1.0.0",
-"eslint": "^10.2.1",
-"eslint-plugin-react-hooks": "^7.1.1",
-"eslint-plugin-react-refresh": "^0.5.2",
-"eslint-plugin-storybook": "^10.3.6",
-"globals": "^17.5.0",
-"playwright": "^1.59.1",
-"storybook": "^10.3.6",
-"typescript": "~6.0.2",
-"typescript-eslint": "^8.58.2",
-"vite": "^8.0.10",
-"vite-plugin-dts": "^5.0.0",
-"vitest": "^4.1.5"
-}
+  "dependencies": {
+    "@tiptap/extension-link": "^3.31.3",
+    "@tiptap/extension-placeholder": "^3.31.3",
+    "@tiptap/pm": "^3.31.3",
+    "@tiptap/react": "^3.31.3",
+    "@tiptap/starter-kit": "^3.31.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@chromatic-com/storybook": "^5.1.2",
+    "@eslint/js": "^10.0.1",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/addon-docs": "^10.3.6",
+    "@storybook/addon-vitest": "^10.3.6",
+    "@storybook/react-vite": "^10.3.6",
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/browser-playwright": "^4.1.5",
+    "@vitest/coverage-v8": "^4.1.5",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^10.2.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-storybook": "^10.3.6",
+    "globals": "^17.5.0",
+    "playwright": "^1.59.1",
+    "storybook": "^10.3.6",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.2",
+    "vite": "^8.0.10",
+    "vite-plugin-dts": "^5.0.0",
+    "vitest": "^4.1.5"
+  }
 }

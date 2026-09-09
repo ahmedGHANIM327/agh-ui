@@ -1,0 +1,175 @@
+/* ── Container (label + field + description/error) ─────────────────────── */
+.rich-text__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    width: 100%;
+}
+
+.rich-text__label {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+    color: var(--foreground);
+}
+
+.rich-text__label--error {
+    color: var(--destructive);
+}
+
+.rich-text__description {
+    margin: 0;
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    color: var(--muted-foreground);
+}
+
+.rich-text__description--error {
+    color: var(--destructive);
+}
+
+/* ── Wrapper (styled like Input) ────────────────────────────────────────── */
+.rich-text__wrapper {
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    overflow: hidden;
+
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        background-color 150ms ease;
+}
+
+.rich-text__wrapper--focused {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.rich-text__wrapper--error {
+    border-color: var(--destructive);
+}
+
+.rich-text__wrapper--error.rich-text__wrapper--focused {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+}
+
+.rich-text__wrapper--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Toolbar ────────────────────────────────────────────────────────────── */
+.rich-text__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-2);
+
+    padding: var(--spacing-2);
+
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
+}
+
+.rich-text__heading-select {
+    width: 10rem;
+}
+
+/* Shrink icon buttons inside the toolbar */
+.rich-text__toolbar :global(.button--icon) {
+    height: 1.75rem;
+    width: 1.75rem;
+    min-height: 1.75rem;
+    padding: 0;
+    border-radius: var(--radius-md);
+}
+
+.rich-text__toolbar :global(.button--icon svg) {
+    width: 14px;
+    height: 14px;
+}
+
+/* ── Editor ─────────────────────────────────────────────────────────────── */
+.rich-text__editor {
+    min-height: 8rem;
+    padding: var(--spacing-3);
+
+    background-color: var(--background);
+    color: var(--foreground);
+
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+
+    outline: none;
+}
+
+/* Tiptap prose defaults */
+.rich-text__editor :global(p) {
+    margin: 0 0 var(--spacing-2);
+}
+
+.rich-text__editor :global(h1) {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    font-weight: var(--font-weight-bold);
+    margin: var(--spacing-3) 0 var(--spacing-2);
+}
+
+.rich-text__editor :global(h2) {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: var(--font-weight-bold);
+    margin: var(--spacing-3) 0 var(--spacing-2);
+}
+
+.rich-text__editor :global(h3) {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    font-weight: var(--font-weight-bold);
+    margin: var(--spacing-2) 0;
+}
+
+.rich-text__editor :global(ul) {
+    list-style: disc;
+    padding-left: var(--spacing-6);
+    margin: 0 0 var(--spacing-2);
+}
+
+.rich-text__editor :global(ol) {
+    list-style: decimal;
+    padding-left: var(--spacing-6);
+    margin: 0 0 var(--spacing-2);
+}
+
+.rich-text__editor :global(li) {
+    margin: var(--spacing-1) 0;
+}
+
+.rich-text__editor :global(strong) {
+    font-weight: var(--font-weight-bold);
+}
+
+.rich-text__editor :global(em) {
+    font-style: italic;
+}
+
+.rich-text__link {
+    color: var(--primary);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Placeholder (Tiptap Placeholder extension) */
+.rich-text__editor :global(p.is-editor-empty:first-child::before) {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: var(--muted-foreground);
+    pointer-events: none;
+}

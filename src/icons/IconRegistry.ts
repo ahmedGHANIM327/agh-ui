@@ -114,6 +114,14 @@ import TiktokIcon from "./elements/TiktokIcon.tsx";
 import DiscordIcon from "./elements/DiscordIcon.tsx";
 import SlackIcon from "./elements/SlackIcon.tsx";
 
+// ============================================================
+// TEXT FORMATTING
+// ============================================================
+import BoldIcon from "./elements/BoldIcon.tsx";
+import ItalicIcon from "./elements/ItalicIcon.tsx";
+import ListIcon from "./elements/ListIcon.tsx";
+import ListOrderedIcon from "./elements/ListOrderedIcon.tsx";
+
 export const IconRegistry = {
 
     // ============================================================
@@ -243,6 +251,14 @@ export const IconRegistry = {
     tiktok: TiktokIcon,
     discord: DiscordIcon,
     slack: SlackIcon,
+
+    // ============================================================
+    // TEXT FORMATTING
+    // ============================================================
+    bold: BoldIcon,
+    italic: ItalicIcon,
+    list: ListIcon,
+    listOrdered: ListOrderedIcon,
 } as const;
 
 export type IconName = keyof typeof IconRegistry;
