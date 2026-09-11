@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, esmExternalRequirePlugin } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import path from "node:path";
@@ -12,16 +12,26 @@ const dirname =
 export default defineConfig({
   plugins: [
     react(),
+
+    esmExternalRequirePlugin({
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+      ],
+    }),
+
     dts({
-      tsconfigPath: './tsconfig.build.json',
-      include: ['src'],
+      tsconfigPath: "./tsconfig.build.json",
+      include: ["src"],
       exclude: [
-        'src/**/*.stories.ts',
-        'src/**/*.stories.tsx',
-        'src/**/*.test.ts',
-        'src/**/*.test.tsx'
-      ]
-    })
+        "src/**/*.stories.ts",
+        "src/**/*.stories.tsx",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+      ],
+    }),
   ],
 
   build: {
@@ -32,12 +42,14 @@ export default defineConfig({
       fileName: () => "index.js",
       cssFileName: "style",
     },
+
     rollupOptions: {
-      external: [
-        "react",
-        "react-dom",
-        "react/jsx-runtime",
-      ],
+      // IMPORTANT :
+      // Ne PAS mettre React ici.
+      //
+      // esmExternalRequirePlugin s'occupe lui-même
+      // de ces externals et transforme les require()
+      // CJS en imports ESM.
     },
   },
 });
