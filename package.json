@@ -1,6 +1,6 @@
 {
   "name": "@aghanim1206/ui-react",
-  "version": "0.2.15",
+  "version": "0.2.12",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -46,8 +46,6 @@
     "@chromatic-com/storybook": "^5.1.2",
     "@eslint/js": "^10.0.1",
     "@rolldown/plugin-babel": "^0.2.3",
-    "@rollup/plugin-commonjs": "^29.0.3",
-    "@rollup/plugin-node-resolve": "^16.0.3",
     "@storybook/addon-a11y": "^10.3.6",
     "@storybook/addon-docs": "^10.3.6",
     "@storybook/addon-vitest": "^10.3.6",
