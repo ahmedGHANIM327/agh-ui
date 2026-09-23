@@ -113,6 +113,8 @@ import YoutubeIcon from "./elements/YoutubeIcon.tsx";
 import TiktokIcon from "./elements/TiktokIcon.tsx";
 import DiscordIcon from "./elements/DiscordIcon.tsx";
 import SlackIcon from "./elements/SlackIcon.tsx";
+import LinkedinIcon from "./elements/LinkedinIcon.tsx";
+import TwitterIcon from "./elements/TwitterIcon.tsx";
 
 // ============================================================
 // TEXT FORMATTING
@@ -251,6 +253,8 @@ export const IconRegistry = {
     tiktok: TiktokIcon,
     discord: DiscordIcon,
     slack: SlackIcon,
+    linkedin: LinkedinIcon,
+    twitter: TwitterIcon,
 
     // ============================================================
     // TEXT FORMATTING
