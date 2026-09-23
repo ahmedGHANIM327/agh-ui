@@ -9,47 +9,49 @@ const dirname =
         ? __dirname
         : path.dirname(fileURLToPath(import.meta.url));
 
+const isStorybook = process.env.STORYBOOK === "true";
+
 export default defineConfig({
   plugins: [
     react(),
 
-    esmExternalRequirePlugin({
-      external: [
-        "react",
-        "react-dom",
-        "react/jsx-runtime",
-        "react/jsx-dev-runtime",
-      ],
-    }),
-
-    dts({
-      tsconfigPath: "./tsconfig.build.json",
-      include: ["src"],
-      exclude: [
-        "src/**/*.stories.ts",
-        "src/**/*.stories.tsx",
-        "src/**/*.test.ts",
-        "src/**/*.test.tsx",
-      ],
-    }),
+    // ⚠️ Ne pas externaliser react quand on build Storybook
+    ...(isStorybook
+        ? []
+        : [
+          esmExternalRequirePlugin({
+            external: [
+              "react",
+              "react-dom",
+              "react/jsx-runtime",
+              "react/jsx-dev-runtime",
+            ],
+          }),
+          dts({
+            tsconfigPath: "./tsconfig.build.json",
+            include: ["src"],
+            exclude: [
+              "src/**/*.stories.ts",
+              "src/**/*.stories.tsx",
+              "src/**/*.test.ts",
+              "src/**/*.test.tsx",
+            ],
+          }),
+        ]),
   ],
 
-  build: {
-    lib: {
-      entry: path.resolve(dirname, "src/index.ts"),
-      name: "AghUI",
-      formats: ["es"],
-      fileName: () => "index.js",
-      cssFileName: "style",
-    },
-
-    rollupOptions: {
-      // IMPORTANT :
-      // Ne PAS mettre React ici.
-      //
-      // esmExternalRequirePlugin s'occupe lui-même
-      // de ces externals et transforme les require()
-      // CJS en imports ESM.
-    },
-  },
+  ...(isStorybook
+      ? {}
+      : {
+        build: {
+          lib: {
+            entry: path.resolve(dirname, "src/index.ts"),
+            name: "AghUI",
+            formats: ["es"],
+            fileName: () => "index.js",
+            cssFileName: "style",
+          },
+          rollupOptions: {},
+        },
+      }),
 });
