@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import Combobox from "./Combobox";
 import Badge from "../badge/Badge";
+import Dialog from "../dialog/Dialog";
+import Button from "../button/Button";
 
 // ── Data ─────────────────────────────────────────────────────────────────
 interface Country {
@@ -325,6 +327,87 @@ export const MultiSelectCustomMaxBadges: StoryObj<typeof Combobox<Country>> = {
                 renderOption={(c) => c.name}
                 renderValue={(c) => c.name}
             />
+        );
+    },
+};
+
+/**
+ * Combobox rendered inside a Dialog. Verifies that the portal-based
+ * dropdown positions correctly above the dialog overlay, keyboard
+ * navigation still works, and Escape closes the dropdown before the
+ * dialog.
+ */
+export const InsideDialog: StoryObj<typeof Combobox<Country>> = {
+    render: () => {
+        const [open, setOpen] = useState(false);
+        const [country, setCountry] = useState<string | undefined>("fr");
+        const [assignees, setAssignees] = useState<string[]>(["u1", "u3"]);
+
+        return (
+            <Dialog
+                isOpen={open}
+                onOpenChange={setOpen}
+                closeOnOverlayClick
+                trigger={<Button label="Open dialog" />}
+            >
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 16,
+                        padding: 24,
+                        width: 380,
+                    }}
+                >
+                    <h3 style={{ margin: 0, fontFamily: "var(--font-sans)" }}>
+                        Edit assignment
+                    </h3>
+
+                    <Combobox<Country>
+                        label="Country"
+                        placeholder="Select a country"
+                        options={countries}
+                        searchable
+                        searchKeys={["name"]}
+                        value={country}
+                        onValueChange={(v) => setCountry(v as string)}
+                        getOptionValue={(c) => c.code}
+                        renderOption={(c) => c.name}
+                    />
+
+                    <Combobox<User>
+                        label="Assignees"
+                        placeholder="Select users"
+                        options={users}
+                        multiple
+                        searchable
+                        searchKeys={["firstName", "lastName"]}
+                        value={assignees}
+                        onValueChange={(v) => setAssignees(v as string[])}
+                        getOptionValue={(u) => u.id}
+                        renderOption={(u) => `${u.firstName} ${u.lastName}`}
+                        renderValue={(u) => `${u.firstName} ${u.lastName}`}
+                    />
+
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            gap: 8,
+                        }}
+                    >
+                        <Button
+                            variant="ghost"
+                            label="Cancel"
+                            onClick={() => setOpen(false)}
+                        />
+                        <Button
+                            label="Save"
+                            onClick={() => setOpen(false)}
+                        />
+                    </div>
+                </div>
+            </Dialog>
         );
     },
 };

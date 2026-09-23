@@ -98,7 +98,7 @@ const getPortalEl = (): HTMLElement => {
         el = document.createElement("div");
         el.id = PORTAL_ID;
         el.style.cssText =
-            "position:fixed;inset:0;overflow:visible;pointer-events:none;z-index:9999;";
+            "position:fixed;inset:0;overflow:visible;pointer-events:none;z-index:10000;";
         document.body.appendChild(el);
     }
     _portal = el;
