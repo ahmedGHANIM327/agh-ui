@@ -37,6 +37,8 @@ export { default as Combobox } from "./components/combobox/Combobox";
 export type { ComboboxProps } from "./components/combobox/Combobox";
 export { default as RichText } from "./components/rich-text/RichText";
 export type { RichTextProps } from "./components/rich-text/RichText";
+export { default as DropdownMenu } from "./components/dropdown-menu/DropdownMenu";
+export type { DropdownMenuProps, DropdownMenuEntry, DropdownMenuItem, DropdownMenuItemVariant, DropdownMenuPosition } from "./components/dropdown-menu/DropdownMenu";
 
 // Theme
 export { ThemeProvider, useTheme } from "./components/theme/ThemeProvider";

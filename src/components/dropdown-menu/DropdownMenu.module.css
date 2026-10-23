@@ -1,0 +1,171 @@
+/* ── Trigger ─────────────────────────────────────────────────────────────── */
+.dropdown-menu__trigger {
+    display: inline-flex;
+    width: fit-content;
+}
+
+.dropdown-menu__trigger-button {
+    display: inline-flex;
+    outline: none;
+    border-radius: var(--radius-md);
+}
+
+.dropdown-menu__trigger-button:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+/* ── Content (rendu dans le portal dédié position:fixed inset:0) ────────── */
+.dropdown-menu__content {
+    position: absolute;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    min-width: 180px;
+    max-width: 320px;
+    padding: var(--spacing-1);
+
+    font-family: var(--font-sans);
+
+    color: var(--foreground);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--foreground) 12%, transparent);
+
+    pointer-events: auto;
+    animation: dropdown-menu-in 150ms ease;
+}
+
+.dropdown-menu__content--top {
+    --dm-transform: translateX(-50%) translateY(-100%);
+    transform: var(--dm-transform);
+}
+
+.dropdown-menu__content--top-start {
+    --dm-transform: translateY(-100%);
+    transform: var(--dm-transform);
+}
+
+.dropdown-menu__content--top-end {
+    --dm-transform: translateX(-100%) translateY(-100%);
+    transform: var(--dm-transform);
+}
+
+.dropdown-menu__content--bottom {
+    --dm-transform: translateX(-50%);
+    transform: var(--dm-transform);
+}
+
+.dropdown-menu__content--bottom-start {
+    --dm-transform: translateX(0);
+    transform: var(--dm-transform);
+}
+
+.dropdown-menu__content--bottom-end {
+    --dm-transform: translateX(-100%);
+    transform: var(--dm-transform);
+}
+
+.dropdown-menu__content--center {
+    --dm-transform: translateX(-50%) translateY(-50%);
+    transform: var(--dm-transform);
+}
+
+@keyframes dropdown-menu-in {
+    from {
+        opacity: 0;
+        transform: var(--dm-transform) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: var(--dm-transform) scale(1);
+    }
+}
+
+/* ── Items ───────────────────────────────────────────────────────────────── */
+.dropdown-menu__item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+
+    color: var(--foreground);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+
+    cursor: pointer;
+    outline: none;
+
+    transition:
+        background-color 150ms ease,
+        color 150ms ease;
+}
+
+.dropdown-menu__item-label {
+    flex: 1;
+}
+
+.dropdown-menu__item:hover:not(:disabled),
+.dropdown-menu__item:focus-visible:not(:disabled) {
+    background: var(--muted);
+}
+
+.dropdown-menu__item:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dropdown-menu__item--loading:disabled {
+    opacity: 1;
+    cursor: progress;
+}
+
+.dropdown-menu__item--primary {
+    color: var(--primary);
+}
+
+.dropdown-menu__item--primary:hover:not(:disabled),
+.dropdown-menu__item--primary:focus-visible:not(:disabled) {
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.dropdown-menu__item--secondary {
+    color: var(--muted-foreground);
+}
+
+.dropdown-menu__item--danger {
+    color: var(--destructive);
+}
+
+.dropdown-menu__item--danger:hover:not(:disabled),
+.dropdown-menu__item--danger:focus-visible:not(:disabled) {
+    background: color-mix(in srgb, var(--destructive) 10%, transparent);
+}
+
+/* ── Separator / label ───────────────────────────────────────────────────── */
+.dropdown-menu__separator {
+    height: 1px;
+    margin: var(--spacing-1) calc(var(--spacing-1) * -1);
+    background: var(--border);
+}
+
+.dropdown-menu__label {
+    padding: var(--spacing-2) var(--spacing-3) var(--spacing-1);
+
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    font-weight: var(--font-weight-medium);
+    color: var(--muted-foreground);
+}
