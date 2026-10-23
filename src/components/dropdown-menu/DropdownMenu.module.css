@@ -2,6 +2,7 @@
 .dropdown-menu__trigger {
     display: inline-flex;
     width: fit-content;
+    cursor: pointer;
 }
 
 .dropdown-menu__trigger-button {

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import DropdownMenu from "./DropdownMenu";
 import Button from "../button/Button";
 import Card from "../card/Card";
+import Avatar from "../avatar/Avatar.tsx";
 
 const meta: Meta<typeof DropdownMenu> = {
     title: "DropdownMenu",
@@ -145,7 +146,7 @@ export const ProfileMenu: Story = {
     render: () => (
         <DropdownMenu
             position="bottom-end"
-            trigger={<Button label="Account" iconName="user" variant="outline" />}
+            trigger={<Avatar iconName={'user'} variant={'primary'} />}
             items={[
                 { type: "label", label: "John Doe", description: "john.doe@example.com" },
                 { type: "separator" },

@@ -45,6 +45,7 @@ const Badge: FC<BadgeProps> = ({
         s('badge'),
         s(`badge--${variant}`),
         s(`badge--${size}`),
+        !label ? s('badge--round') : '',
         className,
     ]
         .filter(Boolean)

@@ -1,0 +1,65 @@
+.avatar {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.avatar__shape {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    border-radius: 9999px;
+
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+.avatar__shape--default {
+    background: var(--foreground);
+    color: var(--background);
+}
+
+.avatar__shape--primary {
+    background: var(--primary);
+    color: var(--primary-foreground);
+}
+
+.avatar__shape--outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--foreground);
+}
+
+.avatar__shape--muted {
+    background: var(--muted);
+    color: var(--muted-foreground);
+}
+
+.avatar__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar__fallback {
+    white-space: nowrap;
+}
+
+/* Badge en bas à droite */
+.avatar__badge {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: inline-flex;
+    transform: translate(25%, 25%);
+    box-shadow: 0 0 0 2px var(--background);
+    border-radius: var(--radius-md);
+}
