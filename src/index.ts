@@ -22,6 +22,8 @@ export {
 export { default as Tooltip } from "./components/tooltip/Tooltip";
 export { default as Dialog } from "./components/dialog/Dialog";
 export type { DialogProps } from "./components/dialog/Dialog";
+export { default as Sheet } from "./components/sheet/Sheet";
+export type { SheetProps, SheetPosition } from "./components/sheet/Sheet";
 export { default as Switch } from "./components/switch/Switch";
 export type { SwitchProps, SwitchVariant } from "./components/switch/Switch";
 export { default as Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs/Tabs";
