@@ -57,6 +57,24 @@ const meta: Meta<DialogProps> = {
             },
         },
 
+        header: {
+            control: false,
+            description: "Optional block pinned at the top, separated by a border.",
+            table: { category: "Content", type: { summary: "ReactNode" } },
+        },
+
+        footer: {
+            control: false,
+            description: "Optional block pinned at the bottom, separated by a border.",
+            table: { category: "Content", type: { summary: "ReactNode" } },
+        },
+
+        width: {
+            control: "text",
+            description: "Dialog width (number in px or CSS value). Adapts to the content by default.",
+            table: { category: "Appearance", type: { summary: "number | string" } },
+        },
+
         showOverlay: {
             control: "boolean",
             description: "Show the backdrop overlay behind the dialog.",
@@ -182,6 +200,38 @@ export const WithForm: Story = {
                     <Button variant="outline" label="Cancel" onClick={() => setOpen(false)} />
                     <Button variant="primary" label="Save changes" onClick={() => setOpen(false)} />
                 </div>
+            </Dialog>
+        );
+    },
+};
+
+export const WithHeaderAndFooter: Story = {
+    render: () => {
+        const [open, setOpen] = useState(false);
+
+        return (
+            <Dialog
+                isOpen={open}
+                onOpenChange={setOpen}
+                width={480}
+                trigger={<Button label="Open with header & footer" />}
+                header={
+                    <>
+                        <Typography variant="h3">Edit profile</Typography>
+                        <Typography variant="p-sm" color="muted">
+                            Update your account information below.
+                        </Typography>
+                    </>
+                }
+                footer={
+                    <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
+                        <Button variant="outline" label="Cancel" onClick={() => setOpen(false)} />
+                        <Button variant="primary" label="Save changes" onClick={() => setOpen(false)} />
+                    </div>
+                }
+            >
+                <Input label="Name" placeholder="Your name" />
+                <Input label="Email" placeholder="your@email.com" type="email" />
             </Dialog>
         );
     },

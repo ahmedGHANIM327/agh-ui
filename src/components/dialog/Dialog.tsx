@@ -17,6 +17,10 @@ export interface DialogProps {
     overlayClassName?: string;
     contentClassName?: string;
     trigger?: ReactNode;
+    header?: ReactNode;
+    footer?: ReactNode;
+    /** Dialog width. Adapts to the content by default. */
+    width?: number | string;
     closeOnOverlayClick?: boolean;
     closeOnEsc?: boolean;
     closeButton?: boolean;
@@ -31,6 +35,9 @@ const Dialog = ({
     overlayClassName = "",
     contentClassName = "",
     trigger,
+    header,
+    footer,
+    width,
     closeOnOverlayClick = false,
     closeOnEsc = true,
     closeButton = true,
@@ -90,6 +97,7 @@ const Dialog = ({
 
                         <div
                             className={[s('dialog__content'), contentClassName].filter(Boolean).join(' ')}
+                            style={width !== undefined ? { width } : undefined}
                         >
                             {closeButton && (
                                 <Button
@@ -102,7 +110,9 @@ const Dialog = ({
                                 />
                             )}
 
-                            {children}
+                            {header && <div className={s('dialog__header')}>{header}</div>}
+                            <div className={s('dialog__body')}>{children}</div>
+                            {footer && <div className={s('dialog__footer')}>{footer}</div>}
                         </div>
                     </div>,
                     document.body,
