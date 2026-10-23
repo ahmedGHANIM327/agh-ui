@@ -35,6 +35,7 @@ export interface DropdownMenuSeparator {
 export interface DropdownMenuLabel {
     type: "label";
     label: string;
+    description?: string;
 }
 
 export type DropdownMenuEntry = DropdownMenuItem | DropdownMenuSeparator | DropdownMenuLabel;
@@ -222,7 +223,14 @@ const DropdownMenu = ({
                                         key={`label-${index}`}
                                         className={s('dropdown-menu__label')}
                                     >
-                                        {entry.label}
+                                        <span className={s('dropdown-menu__label-title')}>
+                                            {entry.label}
+                                        </span>
+                                        {entry.description && (
+                                            <span className={s('dropdown-menu__label-description')}>
+                                                {entry.description}
+                                            </span>
+                                        )}
                                     </div>
                                 );
                             }

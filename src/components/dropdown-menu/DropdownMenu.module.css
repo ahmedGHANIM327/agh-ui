@@ -162,10 +162,23 @@
 }
 
 .dropdown-menu__label {
+    display: flex;
+    flex-direction: column;
     padding: var(--spacing-2) var(--spacing-3) var(--spacing-1);
 
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
     font-weight: var(--font-weight-medium);
     color: var(--muted-foreground);
+}
+
+.dropdown-menu__label-title {
+    font-weight: var(--font-weight-semibold);
+}
+
+.dropdown-menu__label-description {
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

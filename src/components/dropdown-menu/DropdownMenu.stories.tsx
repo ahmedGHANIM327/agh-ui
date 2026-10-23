@@ -140,3 +140,20 @@ export const AsyncItem: Story = {
         />
     ),
 };
+
+export const ProfileMenu: Story = {
+    render: () => (
+        <DropdownMenu
+            position="bottom-end"
+            trigger={<Button label="Account" iconName="user" variant="outline" />}
+            items={[
+                { type: "label", label: "John Doe", description: "john.doe@example.com" },
+                { type: "separator" },
+                { label: "Profile", leftIcon: "user" },
+                { label: "Settings", leftIcon: "settings" },
+                { type: "separator" },
+                { label: "Log out", leftIcon: "login", variant: "danger" },
+            ]}
+        />
+    ),
+};
