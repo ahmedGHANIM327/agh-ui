@@ -1,0 +1,122 @@
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+
+    width: 100%;
+    font-family: var(--font-sans);
+    color: var(--foreground);
+}
+
+.sidebar-nav__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.sidebar-nav__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+
+    padding: var(--spacing-1) var(--spacing-3);
+
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    font-weight: var(--font-weight-medium);
+    color: var(--muted-foreground);
+}
+
+.sidebar-nav__list,
+.sidebar-nav__sub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav__sub-list {
+    margin-left: var(--spacing-5);
+    padding-left: var(--spacing-2);
+    margin-top: 2px;
+    border-left: 1px solid var(--border);
+}
+
+.sidebar-nav__item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--spacing-2) var(--spacing-3);
+
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+    text-decoration: none;
+
+    color: var(--muted-foreground);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+
+    outline: none;
+    cursor: default;
+
+    transition:
+        background-color 150ms ease,
+        color 150ms ease;
+}
+
+.sidebar-nav__item--clickable {
+    cursor: pointer;
+}
+
+.sidebar-nav__item--clickable:hover,
+.sidebar-nav__item--clickable:focus-visible {
+    background: var(--muted);
+    color: var(--foreground);
+}
+
+.sidebar-nav__item:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.sidebar-nav__item--active,
+.sidebar-nav__item--active:hover {
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    color: var(--primary);
+}
+
+.sidebar-nav__item--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sidebar-nav__item--sub {
+    font-weight: normal;
+}
+
+.sidebar-nav__label {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-nav__chevron {
+    margin-left: auto;
+    display: inline-flex;
+    transition: transform 150ms ease;
+}
+
+.sidebar-nav__chevron--open {
+    transform: rotate(90deg);
+}

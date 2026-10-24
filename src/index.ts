@@ -6,6 +6,8 @@ export { default as Avatar } from "./components/avatar/Avatar";
 export type { AvatarProps, AvatarVariant, AvatarSize, AvatarBadgeProps } from "./components/avatar/Avatar";
 export { default as Item } from "./components/item/Item";
 export type { ItemProps, ItemVariant, ItemSize, ItemBadgeProps } from "./components/item/Item";
+export { default as SidebarNav } from "./components/sidebarnav/SidebarNav";
+export type { SidebarNavProps, SidebarNavBlock, SidebarNavItem, SidebarNavBadgeProps } from "./components/sidebarnav/SidebarNav";
 export { default as Card } from "./components/card/Card";
 export { default as Input } from "./components/input/Input";
 export { default as Textarea } from "./components/textarea/Textarea";
