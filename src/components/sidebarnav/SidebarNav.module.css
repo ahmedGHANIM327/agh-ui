@@ -39,10 +39,10 @@
 }
 
 .sidebar-nav__sub-list {
-    margin-left: var(--spacing-5);
-    padding-left: var(--spacing-2);
+    margin-inline-start: var(--spacing-5);
+    padding-inline-start: var(--spacing-2);
     margin-top: 2px;
-    border-left: 1px solid var(--border);
+    border-inline-start: 1px solid var(--border);
 }
 
 .sidebar-nav__item {
@@ -58,7 +58,7 @@
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
     font-weight: var(--font-weight-medium);
-    text-align: left;
+    text-align: start;
     text-decoration: none;
 
     color: var(--muted-foreground);
@@ -112,11 +112,19 @@
 }
 
 .sidebar-nav__chevron {
-    margin-left: auto;
+    margin-inline-start: auto;
     display: inline-flex;
     transition: transform 150ms ease;
 }
 
 .sidebar-nav__chevron--open {
+    transform: rotate(90deg);
+}
+
+.sidebar-nav__chevron:dir(rtl) {
+    transform: scaleX(-1);
+}
+
+.sidebar-nav__chevron--open:dir(rtl) {
     transform: rotate(90deg);
 }

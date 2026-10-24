@@ -1,0 +1,125 @@
+.sidebar-layout {
+    display: flex;
+    width: 100%;
+    min-height: 100dvh;
+}
+
+.sidebar {
+    position: sticky;
+    top: 0;
+    flex-shrink: 0;
+
+    width: 0;
+    height: 100dvh;
+    overflow: hidden;
+
+    background: var(--sidebar-bg);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+
+    transition: width 250ms ease;
+}
+
+.sidebar--open {
+    width: var(--sidebar-width);
+    max-width: 100vw;
+}
+
+/* Largeur fixe pour que le contenu ne se re-wrap pas pendant l'animation */
+.sidebar__inner {
+    display: flex;
+    flex-direction: column;
+
+    width: var(--sidebar-width);
+    max-width: 100vw;
+    height: 100%;
+}
+
+.sidebar__header,
+.sidebar__footer {
+    flex-shrink: 0;
+    min-width: 0;
+    overflow-x: auto;
+    padding: var(--spacing-4);
+}
+
+.sidebar__content {
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    padding: var(--spacing-4);
+    overflow: auto;
+}
+
+.sidebar__header + .sidebar__content,
+.sidebar__content:has(+ .sidebar__footer) {
+    padding-top: 0;
+}
+
+.sidebar-inset {
+    flex: 1;
+    min-width: 0;
+}
+
+.sidebar__backdrop {
+    display: none;
+}
+
+/* ── Mobile : tiroir par-dessus le contenu ───────────────────────────────── */
+@media (max-width: 767px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        inset-inline-start: 0;
+        z-index: 50;
+
+        width: var(--sidebar-width);
+        max-width: 100vw;
+
+        transform: translateX(-100%);
+        transition: transform 250ms ease;
+    }
+
+    .sidebar:dir(rtl) {
+        transform: translateX(100%);
+    }
+
+    .sidebar--open,
+    .sidebar--open:dir(rtl) {
+        transform: translateX(0);
+        box-shadow: 0 0 40px color-mix(in srgb, var(--foreground) 25%, transparent);
+    }
+
+    .sidebar__inner {
+        width: 100%;
+    }
+
+    .sidebar__close {
+        position: absolute;
+        top: var(--spacing-3);
+        inset-inline-end: var(--spacing-3);
+        z-index: 1;
+        border-radius: var(--radius-full) !important;
+    }
+
+    .sidebar--wide .sidebar__header {
+        padding-inline-end: calc(var(--spacing-4) + 2.5rem);
+    }
+
+    .sidebar__backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+
+        background: color-mix(in srgb, var(--foreground) 50%, transparent);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 250ms ease;
+    }
+
+    .sidebar__backdrop--visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}

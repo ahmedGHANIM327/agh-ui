@@ -19,6 +19,9 @@
     --spacing-12: 3rem;
     --spacing-16: 4rem;
 
+    /* Sidebar */
+    --sidebar-width: 300px;
+
     /* Border radius */
     --radius-sm: 0.25rem;
     --radius-md: 0.375rem;
@@ -96,6 +99,7 @@
 
     --muted: #eef2f6;
     --muted-foreground: #526173;
+    --sidebar-bg: var(--muted);
 
     --destructive: #dc2626;
     --destructive-foreground: #ffffff;
@@ -115,6 +119,7 @@
 
     --muted: #182333;
     --muted-foreground: #a8b6c8;
+    --sidebar-bg: var(--muted);
 
     --destructive: #f87171;
     --destructive-foreground: #1f0505;
@@ -136,6 +141,7 @@
 
     --muted: #edf7f0;
     --muted-foreground: #5f6f64;
+    --sidebar-bg: var(--muted);
 
     --destructive: #dc2626;
     --destructive-foreground: #ffffff;
@@ -153,6 +159,7 @@
 
     --muted: #16211b;
     --muted-foreground: #9fb4a4;
+    --sidebar-bg: var(--muted);
 
     --destructive: #ef4444;
     --destructive-foreground: #ffffff;
@@ -170,6 +177,7 @@
 
     --muted: #f1ebff;
     --muted-foreground: #6b5f7d;
+    --sidebar-bg: var(--muted);
 
     --destructive: #dc2626;
     --destructive-foreground: #ffffff;
@@ -187,6 +195,7 @@
 
     --muted: #1f1a2e;
     --muted-foreground: #b8adc9;
+    --sidebar-bg: var(--muted);
 
     --destructive: #ef4444;
     --destructive-foreground: #ffffff;
