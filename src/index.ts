@@ -4,6 +4,8 @@ export { default as Button } from "./components/button/Button";
 export { default as Badge } from "./components/badge/Badge";
 export { default as Avatar } from "./components/avatar/Avatar";
 export type { AvatarProps, AvatarVariant, AvatarSize, AvatarBadgeProps } from "./components/avatar/Avatar";
+export { default as Item } from "./components/item/Item";
+export type { ItemProps, ItemVariant, ItemSize, ItemBadgeProps } from "./components/item/Item";
 export { default as Card } from "./components/card/Card";
 export { default as Input } from "./components/input/Input";
 export { default as Textarea } from "./components/textarea/Textarea";
